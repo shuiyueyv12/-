@@ -1,0 +1,71 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 顶栏 -->
+  <view class="od-topbar">
+    <text class="od-title">我的订单</text>
+  </view>
+
+  <!-- 状态筛选 -->
+  <view class="od-tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="*this"
+      class="od-tab {{active === item ? 'is-active' : ''}}"
+      hover-class="od-tab-hover"
+      data-tab="{{item}}"
+      bindtap="onTab"
+    >{{item}}</view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view wx:if="{{list.length}}" class="od-list">
+    <view
+      wx:for="{{list}}"
+      wx:key="orderId"
+      class="od-card"
+      hover-class="od-card-hover"
+      data-id="{{item.orderId}}"
+      bindtap="goDetail"
+    >
+      <view class="od-card-head">
+        <text class="od-order-id">{{item.orderId}}</text>
+        <text class="od-status">{{item.status}}</text>
+      </view>
+      <view class="od-card-body">
+        <view class="od-thumbs">
+          <image
+            wx:for="{{item.items}}"
+            wx:for-item="p"
+            wx:key="id"
+            class="od-thumb"
+            src="{{p.image}}"
+            mode="aspectFill"
+          />
+          <text wx:if="{{!item.items.length}}" class="od-thumb-empty">无</text>
+        </view>
+        <view class="od-summary">
+          <text class="od-count">共 {{item.count}} 件</text>
+          <text class="od-amount">{{item.amountText}}</text>
+        </view>
+      </view>
+      <view class="od-card-foot">
+        <text class="od-time">{{item.timeText}}</text>
+        <text class="od-goto">查看详情</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空态 -->
+  <view wx:else class="page-empty">
+    <icon name="package" size="52" color="#c3c5ca" />
+    <text class="page-empty-title">暂无相关订单</text>
+    <text class="page-empty-tip">去挑选心仪的商品吧</text>
+    <view class="btn-primary" hover-class="btn-hover" bindtap="goBrowsing">
+      <text>去逛逛</text>
+      <icon name="arrow-right" size="15" color="#ffffff" />
+    </view>
+  </view>
+
+  <view class="safe-bottom-space"></view>
+</view>

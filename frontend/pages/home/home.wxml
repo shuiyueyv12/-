@@ -1,0 +1,141 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 品牌栏 -->
+  <view class="topbar">
+    <view class="brand-lockup">
+      <text class="brand-mark">H</text>
+      <view class="brand-text">
+        <text class="brand-name">HUAWEI</text>
+        <text class="brand-sub">商城</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索区 -->
+  <view class="search-area">
+    <view class="search-box">
+      <icon name="search" size="18" color="#8b8d92" />
+      <input class="search-box-input" value="{{query}}" bindinput="onSearchInput" placeholder="搜索你想要的产品" />
+      <view wx:if="{{query}}" class="clear-search" hover-class="clear-search-hover" bindtap="clearSearch">
+        <icon name="x" size="15" color="#74767c" />
+      </view>
+    </view>
+    <view class="search-meta">
+      <text class="search-meta-label">今日热搜</text>
+      <view class="hot-link" hover-class="hot-link-hover" data-kw="Mate" bindtap="applyHot">Mate 70</view>
+      <view class="hot-link" hover-class="hot-link-hover" data-kw="FreeBuds" bindtap="applyHot">FreeBuds Pro 4</view>
+    </view>
+  </view>
+
+  <!-- 轮播 -->
+  <view wx:if="{{currentBanner}}" class="hero {{currentBanner.tone}}">
+    <swiper
+      class="hero-swiper"
+      autoplay
+      circular
+      interval="5200"
+      current="{{slide}}"
+      bindchange="onSlide"
+    >
+      <swiper-item wx:for="{{banners}}" wx:key="title">
+        <image
+          wx:if="{{!bannerImgFail[index]}}"
+          class="hero-image"
+          src="{{item.image}}"
+          mode="aspectFill"
+          data-index="{{index}}"
+          binderror="onBannerImgError"
+        />
+      </swiper-item>
+    </swiper>
+    <view class="hero-scrim"></view>
+    <view class="hero-content">
+      <text class="hero-eyebrow">{{currentBanner.eyebrow}}</text>
+      <text class="hero-h1">{{currentBanner.title}}</text>
+      <text class="hero-p">{{currentBanner.copy}}</text>
+      <view class="hero-cta" hover-class="hero-cta-hover" bindtap="onBannerCta">
+        <text>{{currentBanner.action}}</text>
+        <icon name="arrow-right" size="15" color="#25262a" />
+      </view>
+    </view>
+    <view class="hero-controls">
+      <view class="hero-ctrl" hover-class="hero-ctrl-hover" bindtap="prevSlide">
+        <icon name="chevron-left" size="17" color="#ffffff" />
+      </view>
+      <view class="dots">
+        <view
+          wx:for="{{banners}}"
+          wx:key="title"
+          class="dot {{index === slide ? 'active' : ''}}"
+          bindtap="gotoSlide"
+          data-index="{{index}}"
+        ></view>
+      </view>
+      <view class="hero-ctrl" hover-class="hero-ctrl-hover" bindtap="nextSlide">
+        <icon name="chevron-right" size="17" color="#ffffff" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类入口 -->
+  <view wx:if="{{cats.length}}" class="category-section">
+    <view class="section-heading">
+      <view class="section-left">
+        <text class="section-kicker">EXPLORE</text>
+        <text class="h2">探索产品</text>
+      </view>
+      <view class="all-link" hover-class="all-link-hover" bindtap="goCategory">
+        <text>全部分类</text>
+        <icon name="arrow-right" size="15" color="#73767c" />
+      </view>
+    </view>
+    <view class="category-grid">
+      <view
+        wx:for="{{cats}}"
+        wx:key="id"
+        class="category-item"
+        hover-class="category-item-hover"
+        data-id="{{item.id}}"
+        bindtap="goCategoryWithCat"
+      >
+        <view class="category-icon">
+          <icon name="{{item.icon}}" size="22" color="#272a2e" />
+        </view>
+        <text class="category-label">{{item.label}}</text>
+        <text class="category-note">{{item.note}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 精选好物 -->
+  <view class="product-section">
+    <view class="section-heading products-heading">
+      <view class="section-left">
+        <text class="section-kicker">SELECTED FOR YOU</text>
+        <text class="h2">精选好物</text>
+      </view>
+      <text class="product-count">{{filteredProducts.length}} 件产品</text>
+    </view>
+    <view wx:if="{{filteredProducts.length}}" class="product-grid">
+      <view
+        class="product-grid-cell"
+        wx:for="{{filteredProducts}}"
+        wx:key="id"
+        hover-class="grid-cell-hover"
+        data-id="{{item.id}}"
+        bindtap="goDetail"
+      >
+        <product-card
+          product="{{item}}"
+          liked="{{likedMap[item.id]}}"
+          bindadd="onAdd"
+          bindlike="onLike"
+        />
+      </view>
+    </view>
+    <view wx:else class="empty-state">没有找到相关商品，试试 "Mate" 或 "耳机"</view>
+  </view>
+
+  <view class="safe-bottom-space"></view>
+</view>

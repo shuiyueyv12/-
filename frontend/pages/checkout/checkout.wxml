@@ -1,0 +1,105 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 顶栏 -->
+  <view class="co-topbar">
+    <view class="co-back" hover-class="co-back-hover" bindtap="goBack">
+      <icon name="chevron-left" size="20" color="#18191c" />
+    </view>
+    <text class="co-title">确认订单</text>
+  </view>
+
+  <!-- 收货地址 -->
+  <view class="co-card co-address-card" hover-class="co-card-hover" bindtap="chooseAddress">
+    <block wx:if="{{address}}">
+      <view class="co-addr-main">
+        <view class="co-addr-head">
+          <text class="co-addr-name">{{address.receiver}}</text>
+          <text class="co-addr-phone">{{address.phone}}</text>
+          <text wx:if="{{address.isDefault}}" class="co-addr-default">默认</text>
+        </view>
+        <text class="co-addr-detail">{{address.region}} {{address.detail}}</text>
+      </view>
+      <icon name="chevron-right" size="16" color="#c9cbd0" />
+    </block>
+    <block wx:else>
+      <view class="co-addr-empty">
+        <icon name="map-pin" size="17" color="#c8102e" />
+        <text>请选择收货地址</text>
+      </view>
+      <icon name="chevron-right" size="16" color="#c9cbd0" />
+    </block>
+  </view>
+  <view class="co-addr-manage" hover-class="co-addr-manage-hover" bindtap="goAddressManage">新增 / 管理地址</view>
+
+  <!-- 商品清单 -->
+  <view class="co-card">
+    <text class="co-card-label">商品清单</text>
+    <view wx:for="{{lines}}" wx:key="key" class="co-line">
+      <image class="co-line-thumb" src="{{item.image}}" mode="aspectFill" />
+      <view class="co-line-main">
+        <text class="co-line-name">{{item.name}}</text>
+        <text wx:if="{{item.spec}}" class="co-line-spec">{{item.spec}}</text>
+        <text wx:else class="co-line-sub">{{item.sub}}</text>
+        <view class="co-line-bottom">
+          <text class="co-line-price">{{item.priceText}}</text>
+          <text class="co-line-qty">x{{item.qty}}</text>
+        </view>
+      </view>
+      <text class="co-line-total">{{item.lineTotalText}}</text>
+    </view>
+    <view wx:if="{{!lines.length}}" class="co-line-empty">没有要结算的商品</view>
+  </view>
+
+  <!-- 金额构成:商品金额 + 运费 - 优惠 = 应付总额 -->
+  <view class="co-card co-summary">
+    <view class="co-summary-row">
+      <text>商品金额</text>
+      <text>{{goodsAmountText}}</text>
+    </view>
+    <view class="co-summary-row">
+      <text>配送费用</text>
+      <text>{{freightText}}</text>
+    </view>
+    <view wx:if="{{discountText}}" class="co-summary-row">
+      <text>优惠</text>
+      <text class="co-summary-discount">{{discountText}}</text>
+    </view>
+    <view class="co-summary-row">
+      <text>商品件数</text>
+      <text>{{count}} 件</text>
+    </view>
+    <view class="co-summary-row co-summary-total">
+      <text>应付总额</text>
+      <text class="co-summary-amount">{{amountText}}</text>
+    </view>
+  </view>
+
+  <!-- 订单备注 -->
+  <view class="co-card">
+    <text class="co-card-label">订单备注</text>
+    <input
+      class="co-remark-input"
+      value="{{remark}}"
+      maxlength="50"
+      placeholder="选填,如颜色偏好、送货时间"
+      placeholder-class="co-remark-ph"
+      bindinput="onRemarkInput"
+    />
+  </view>
+
+  <view class="co-bottom-space"></view>
+
+  <!-- 底部提交栏 -->
+  <view class="co-bar">
+    <view class="co-bar-left">
+      <text class="co-bar-label">应付</text>
+      <text class="co-bar-amount">{{amountText}}</text>
+    </view>
+    <view
+      class="co-bar-btn {{(submitting || !lines.length) ? 'is-disabled' : ''}}"
+      hover-class="co-bar-btn-hover"
+      bindtap="submit"
+    >{{submitting ? '提交中…' : '提交订单'}}</view>
+  </view>
+</view>

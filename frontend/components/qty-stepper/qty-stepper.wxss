@@ -1,0 +1,25 @@
+/* ===== 数量加减器 ===== */
+.qty-stepper {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #e5e6e9;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.qty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 25px;
+  color: #3f4248;
+}
+
+.qty-value {
+  min-width: 22px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+}

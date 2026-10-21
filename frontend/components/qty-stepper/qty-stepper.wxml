@@ -1,0 +1,9 @@
+<view class="qty-stepper">
+  <view class="qty-btn {{value <= min ? 'is-disabled' : ''}}" hover-class="qty-btn-hover" catchtap="onMinus">
+    <icon name="minus" size="12" color="{{value <= min ? '#d2d4d8' : '#3f4248'}}" />
+  </view>
+  <text class="qty-value">{{value}}</text>
+  <view class="qty-btn {{value >= max ? 'is-disabled' : ''}}" hover-class="qty-btn-hover" catchtap="onPlus">
+    <icon name="plus" size="12" color="{{value >= max ? '#d2d4d8' : '#3f4248'}}" />
+  </view>
+</view>

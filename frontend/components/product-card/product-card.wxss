@@ -1,0 +1,99 @@
+/* ===== 商品卡片（首页 / 分类页共用）===== */
+.product-card {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f7f7f8;
+}
+
+.product-image-wrap {
+  position: relative;
+  height: 159px;
+  overflow: hidden;
+  background: #f0f1f2;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+}
+
+.product-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: rgba(200, 16, 46, 0.9);
+  color: #fff;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 8px;
+  line-height: 1;
+}
+
+.like-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.84);
+  color: #9a9ca2;
+}
+
+.like-button.is-liked {
+  color: #c8102e;
+}
+
+.product-info {
+  padding: 12px 12px 13px;
+}
+
+.product-name {
+  display: block;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-desc {
+  display: block;
+  margin: 5px 0 11px;
+  overflow: hidden;
+  color: #92949a;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-price {
+  color: #c8102e;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 14px;
+  letter-spacing: -0.05em;
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #fff;
+  color: #c8102e;
+  box-shadow: 0 3px 8px rgba(30, 30, 30, 0.05);
+}

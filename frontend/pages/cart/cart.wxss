@@ -1,0 +1,250 @@
+/* ===== 购物车页样式（由 CartPage.css 迁移，色值展开）===== */
+.page-root {
+  background: #ffffff;
+  min-height: 100vh;
+  padding-bottom: 150px;
+}
+
+.cart-top-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 2px;
+}
+
+.cart-top-sum {
+  color: #a1a3a8;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 10px;
+}
+
+.page-action {
+  padding: 5px 2px 5px 6px;
+  color: #73767c;
+  font-size: 12px;
+}
+
+.page-action.is-on {
+  color: #c8102e;
+  font-weight: 700;
+}
+
+.page-action-hover {
+  color: #c8102e;
+}
+
+.loading-text {
+  margin-top: 18px;
+  font-size: 12px;
+}
+
+/* ---- 商品行 ---- */
+.cart-list {
+  margin-top: 4px;
+  background: #ffffff;
+}
+
+.cart-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #ececef;
+}
+
+.cart-line.is-editing {
+  background: #fefafb;
+}
+
+.cart-check {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+.check-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  border: 1.5px solid #d3d5d9;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.check-dot.on {
+  border-color: #c8102e;
+  background: #c8102e;
+}
+
+.cart-thumb {
+  flex: 0 0 68px;
+  width: 68px;
+  height: 68px;
+  border-radius: 12px;
+  background: #f2f3f5;
+}
+
+.cart-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-name {
+  display: block;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-desc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 5px 0 10px;
+  overflow: hidden;
+  color: #92949a;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-tag-em {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #fdecee;
+  color: #c8102e;
+  font-style: normal;
+}
+
+/* 规格文案(仅「有规格」的购物车行显示),上边距做了负补偿,保持行高节奏不变 */
+.cart-spec {
+  display: inline-block;
+  margin: -4px 0 10px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #f4f5f7;
+  color: #6c6f76;
+  font-size: 10px;
+  letter-spacing: -0.01em;
+}
+
+.cart-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-price {
+  color: #c8102e;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 14px;
+  letter-spacing: -0.05em;
+}
+
+.cart-del-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: #fdecee;
+  color: #c8102e;
+}
+
+.cart-del-btn-hover {
+  background: #f9d5d9;
+}
+
+.cart-tip {
+  display: block;
+  margin: 0;
+  padding: 10px 20px 4px;
+  color: #b8babf;
+  font-size: 9px;
+  text-align: center;
+}
+
+/* ---- 底部结算栏 ---- */
+.cart-bottom-space {
+  height: 20px;
+}
+
+.cart-bar {
+  position: fixed;
+  z-index: 6;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 16px 9px 20px;
+  border-top: 1px solid rgba(233, 234, 237, 0.9);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 -8px 25px rgba(32, 35, 40, 0.05);
+}
+
+.cart-select-all {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 0;
+  color: #53565c;
+  font-size: 12px;
+}
+
+.cart-bar-right {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.cart-total-label {
+  color: #8a8d93;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.cart-amount {
+  color: #c8102e;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 17px;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+}
+
+.btn-checkout {
+  height: 38px;
+  margin-left: 12px;
+  padding: 0 16px;
+  border-radius: 12px;
+}
+
+.btn-primary.is-disabled {
+  opacity: 0.35;
+}
+
+.btn-danger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: #fdecee;
+  color: #c8102e;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.btn-danger.is-disabled {
+  opacity: 0.4;
+}

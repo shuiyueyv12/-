@@ -1,0 +1,33 @@
+{
+  "name": "huawei-mall-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "华为商城小程序后端 API(Express + MySQL),与 wxapp 前端同一仓库",
+  "type": "commonjs",
+  "main": "src/app.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "admin:start": "node admin/app.js",
+    "admin:dev": "node --watch admin/app.js",
+    "db:init": "node tools/init-db.js",
+    "db:migrate": "node tools/init-db.js --migrate",
+    "db:seed": "node tools/seed.js",
+    "smoke": "node tools/smoke-api.js",
+    "smoke:admin": "node tools/smoke-admin.js",
+    "mysql:init": "node tools/mysql-local.js init",
+    "mysql:start": "node tools/mysql-local.js start",
+    "mysql:stop": "node tools/mysql-local.js stop",
+    "mysql:status": "node tools/mysql-local.js status"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0"
+  }
+}

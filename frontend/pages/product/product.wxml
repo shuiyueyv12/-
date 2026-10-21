@@ -1,0 +1,139 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 返回 -->
+  <view class="pd-topbar">
+    <view class="pd-back" hover-class="pd-back-hover" bindtap="goBack">
+      <icon name="chevron-left" size="20" color="#18191c" />
+    </view>
+  </view>
+
+  <block wx:if="{{product}}">
+    <!-- 商品多图 -->
+    <view class="pd-gallery">
+      <swiper
+        class="pd-swiper"
+        circular="{{images.length > 1}}"
+        autoplay="{{images.length > 1}}"
+        interval="4000"
+        duration="320"
+        current="{{imageIndex}}"
+        bindchange="onSwiperChange"
+      >
+        <swiper-item wx:for="{{images}}" wx:key="*this">
+          <image class="pd-image" src="{{item}}" mode="aspectFill" />
+        </swiper-item>
+      </swiper>
+
+      <view wx:if="{{images.length > 1}}" class="pd-dots">
+        <view
+          wx:for="{{images}}"
+          wx:key="*this"
+          class="pd-dot {{index === imageIndex ? 'pd-dot-on' : ''}}"
+        ></view>
+      </view>
+
+      <view class="pd-like" hover-class="pd-like-hover" bindtap="onLike">
+        <icon
+          name="heart"
+          size="18"
+          color="{{liked ? '#ffffff' : '#9a9ca2'}}"
+          mode="{{liked ? 'fill' : 'stroke'}}"
+        />
+      </view>
+      <text wx:if="{{product.tag}}" class="pd-tag">{{product.tag}}</text>
+    </view>
+
+    <!-- 价格与标题 -->
+    <view class="pd-info">
+      <view class="pd-price-row">
+        <text class="pd-price">{{priceText}}</text>
+        <text wx:if="{{originalPriceText}}" class="pd-original">{{originalPriceText}}</text>
+        <text wx:if="{{cartQty > 0}}" class="pd-cart-tip">购物车中已有 {{cartQty}} 件</text>
+      </view>
+      <text class="pd-name">{{product.name}}</text>
+      <text class="pd-desc">{{product.desc}}</text>
+      <view class="pd-stock-row">
+        <text class="pd-stock is-{{stockLevel}}">{{stockText}}</text>
+        <text wx:if="{{specText}}" class="pd-spec-text">已选 {{specText}}</text>
+      </view>
+    </view>
+
+    <!-- 规格选择 -->
+    <view wx:if="{{hasSku}}" class="pd-card">
+      <text class="pd-card-title">选择规格</text>
+      <view wx:for="{{specGroups}}" wx:for-item="group" wx:key="name" class="pd-spec-group">
+        <text class="pd-spec-name">{{group.name}}</text>
+        <view class="pd-spec-values">
+          <view
+            wx:for="{{group.values}}"
+            wx:for-item="opt"
+            wx:key="value"
+            class="pd-chip {{opt.selected ? 'is-on' : ''}} {{opt.available ? '' : 'is-off'}}"
+            hover-class="{{opt.available ? 'pd-chip-hover' : ''}}"
+            data-group="{{group.name}}"
+            data-value="{{opt.value}}"
+            bindtap="onSpecTap"
+          >
+            <text>{{opt.value}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 参数 -->
+    <view class="pd-card">
+      <text class="pd-card-title">商品参数</text>
+      <view wx:for="{{params}}" wx:key="k" class="pd-param-row">
+        <text class="pd-param-k">{{item.k}}</text>
+        <text class="pd-param-v">{{item.v}}</text>
+      </view>
+    </view>
+
+    <!-- 服务保障 -->
+    <view class="pd-card">
+      <text class="pd-card-title">服务保障</text>
+      <view wx:for="{{services}}" wx:key="label" class="pd-service-row">
+        <icon name="{{item.icon}}" size="15" color="#c8102e" />
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+
+    <!-- 数量 -->
+    <view class="pd-card pd-qty-card">
+      <text class="pd-card-title">购买数量</text>
+      <qty-stepper value="{{qty}}" min="1" max="99" bindchange="onQtyChange" />
+    </view>
+
+    <view class="pd-bottom-space"></view>
+
+    <!-- 底部操作栏 -->
+    <view class="pd-bar">
+      <view
+        class="pd-bar-btn is-ghost {{soldOut ? 'is-disabled' : ''}}"
+        hover-class="{{soldOut ? '' : 'pd-bar-btn-hover'}}"
+        bindtap="addCart"
+      >
+        <icon
+          name="shopping-bag"
+          size="16"
+          color="{{soldOut ? '#b9bbc0' : '#c8102e'}}"
+        />
+        <text>{{soldOut ? '已售罄' : '加入购物车'}}</text>
+      </view>
+      <view
+        class="pd-bar-btn is-solid {{soldOut ? 'is-disabled' : ''}}"
+        hover-class="{{soldOut ? '' : 'pd-bar-btn-hover'}}"
+        bindtap="buyNow"
+      >
+        <text>{{soldOut ? '已售罄' : '立即购买'}}</text>
+        <icon name="arrow-right" size="15" color="#ffffff" />
+      </view>
+    </view>
+  </block>
+
+  <view wx:else class="page-empty">
+    <icon name="shopping-bag" size="56" color="#a9abb0" />
+    <text class="page-empty-title">商品加载中…</text>
+  </view>
+</view>

@@ -1,0 +1,299 @@
+/* ===== 确认订单页 ===== */
+.page-root {
+  min-height: 100vh;
+  background: #f1f2f4;
+  padding-bottom: 20px;
+}
+
+.co-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #f1f2f4;
+}
+
+.co-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.co-back-hover {
+  opacity: 0.8;
+}
+
+.co-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+/* 卡片 */
+.co-card {
+  margin: 10px 12px 0;
+  padding: 16px;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.co-card-hover {
+  opacity: 0.92;
+}
+
+.co-card-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+/* 地址 */
+.co-address-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.co-addr-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.co-addr-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.co-addr-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+.co-addr-phone {
+  font-size: 12px;
+  color: #85888f;
+}
+
+.co-addr-default {
+  padding: 1px 8px;
+  border: 1px solid #c8102e;
+  border-radius: 8px;
+  color: #c8102e;
+  font-size: 10px;
+}
+
+.co-addr-detail {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #55585e;
+}
+
+.co-addr-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #c8102e;
+  font-weight: 600;
+}
+
+.co-addr-manage {
+  margin: 8px 16px 0;
+  font-size: 11px;
+  color: #85888f;
+  text-align: right;
+}
+
+.co-addr-manage-hover {
+  color: #c8102e;
+}
+
+/* 商品行 */
+.co-line {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f3f5;
+}
+
+.co-line:last-child {
+  border-bottom: none;
+}
+
+.co-line-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: #f6f7f8;
+}
+
+.co-line-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.co-line-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #18191c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.co-line-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: #85888f;
+}
+
+/* 规格文案:有规格时取代系列名展示 */
+.co-line-spec {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #f4f5f7;
+  color: #6c6f76;
+  font-size: 10px;
+}
+
+.co-line-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.co-line-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #c8102e;
+}
+
+.co-line-qty {
+  font-size: 11px;
+  color: #85888f;
+}
+
+.co-line-total {
+  align-self: flex-end;
+  font-size: 12px;
+  color: #55585e;
+  font-weight: 600;
+}
+
+.co-line-empty {
+  padding: 16px 0 4px;
+  text-align: center;
+  color: #a9abb0;
+  font-size: 12px;
+}
+
+/* 金额 */
+.co-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  font-size: 12px;
+  color: #55585e;
+}
+
+.co-summary-total {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid #f2f3f5;
+  font-size: 13px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+.co-summary-amount {
+  color: #c8102e;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.co-summary-discount {
+  color: #d97706;
+  font-weight: 700;
+}
+
+/* 订单备注 */
+.co-remark-input {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: #f5f6f8;
+  font-size: 12px;
+  color: #18191c;
+}
+
+.co-remark-ph {
+  color: #a9abb0;
+}
+
+/* 底部提交栏 */
+.co-bottom-space {
+  height: 86px;
+}
+
+.co-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.co-bar-left {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.co-bar-label {
+  font-size: 12px;
+  color: #55585e;
+}
+
+.co-bar-amount {
+  font-size: 21px;
+  font-weight: 800;
+  color: #c8102e;
+  letter-spacing: -0.5px;
+}
+
+.co-bar-btn {
+  padding: 12px 32px;
+  border-radius: 14px;
+  background: #c8102e;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.co-bar-btn.is-disabled {
+  opacity: 0.4;
+}
+
+.co-bar-btn-hover {
+  background: #ec1a3b;
+}

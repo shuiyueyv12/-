@@ -1,0 +1,122 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 顶栏 -->
+  <header class="page-topbar">
+    <view>
+      <text class="page-kicker">SHOPPING CART</text>
+      <text class="page-title">购物车</text>
+    </view>
+    <view wx:if="{{!empty}}" class="cart-top-right">
+      <text class="cart-top-sum">共 {{cartTotalQty}} 件</text>
+      <view class="page-action {{editing ? 'is-on' : ''}}" hover-class="page-action-hover" bindtap="toggleEditing">
+        {{editing ? '完成' : '管理'}}
+      </view>
+    </view>
+  </header>
+
+  <!-- 目录加载中 -->
+  <view wx:if="{{!ready}}" class="page-empty">
+    <icon name="shopping-bag" size="56" color="#a9abb0" />
+    <text class="loading-text">正在加载商品…</text>
+  </view>
+
+  <!-- 空购物车 -->
+  <block wx:elif="{{empty}}">
+    <view class="page-empty">
+      <icon name="shopping-bag" size="56" color="#a9abb0" />
+      <text class="page-empty-title">购物车还是空的</text>
+      <text class="page-empty-tip">快去挑选心仪的商品吧</text>
+      <view class="btn-primary" hover-class="btn-hover" bindtap="goBrowsing">
+        <text>去逛逛</text>
+        <icon name="arrow-right" size="15" color="#ffffff" />
+      </view>
+    </view>
+  </block>
+
+  <!-- 购物车列表 -->
+  <block wx:else>
+    <view class="cart-list">
+      <view
+        wx:for="{{lines}}"
+        wx:key="key"
+        class="cart-line {{editing ? 'is-editing' : ''}}"
+      >
+        <view
+          class="cart-check"
+          hover-class="cart-check-hover"
+          data-id="{{item.productId}}"
+          data-sku="{{item.skuId}}"
+          data-checked="{{item.checked ? '1' : '0'}}"
+          bindtap="onToggleLine"
+        >
+          <view class="check-dot {{item.checked ? 'on' : ''}}">
+            <icon wx:if="{{item.checked}}" name="check" size="11" color="#ffffff" />
+          </view>
+        </view>
+        <image class="cart-thumb" src="{{item.product.image}}" mode="aspectFill" />
+        <view class="cart-main">
+          <text class="cart-name">{{item.product.name}}</text>
+          <view class="cart-desc">
+            <text>{{item.product.sub}}</text>
+            <text wx:if="{{item.product.tag}}" class="cart-tag-em">{{item.product.tag}}</text>
+          </view>
+          <text wx:if="{{item.spec}}" class="cart-spec">{{item.spec}}</text>
+          <view class="cart-price-row">
+            <text class="cart-price">{{item.product.priceText}}</text>
+            <block wx:if="{{editing}}">
+              <view
+                class="cart-del-btn"
+                hover-class="cart-del-btn-hover"
+                data-id="{{item.productId}}"
+                data-sku="{{item.skuId}}"
+                bindtap="onRemoveLine"
+              >
+                <icon name="trash-2" size="16" color="#c8102e" />
+              </view>
+            </block>
+            <block wx:else>
+              <qty-stepper
+                value="{{item.qty}}"
+                min="1"
+                max="99"
+                data-id="{{item.productId}}"
+                data-sku="{{item.skuId}}"
+                bindchange="onQtyChange"
+              />
+            </block>
+          </view>
+        </view>
+      </view>
+      <text class="cart-tip">数据保存在本机，更换设备或清理缓存后会清空</text>
+    </view>
+
+    <view class="cart-bottom-space"></view>
+
+    <!-- 底部结算栏 -->
+    <view class="cart-bar">
+      <view class="cart-select-all" hover-class="cart-select-all-hover" bindtap="toggleAll">
+        <view class="check-dot {{allChecked ? 'on' : ''}}">
+          <icon wx:if="{{allChecked}}" name="check" size="11" color="#ffffff" />
+        </view>
+        <text>全选</text>
+      </view>
+
+      <block wx:if="{{editing}}">
+        <view class="btn-danger {{checkedCount === 0 ? 'is-disabled' : ''}}" hover-class="btn-danger-hover" bindtap="removeChecked">
+          <text>删除所选{{checkedCount > 0 ? ' (' + checkedCount + ')' : ''}}</text>
+        </view>
+      </block>
+
+      <block wx:else>
+        <view class="cart-bar-right">
+          <text class="cart-total-label">合计：</text>
+          <text class="cart-amount">{{checkedAmountText}}</text>
+          <view class="btn-primary btn-checkout {{(checkedCount === 0 || submitting) ? 'is-disabled' : ''}}" hover-class="btn-hover" bindtap="handleCheckout">
+            <text>{{submitting ? '处理中…' : '去结算' + (checkedCount > 0 ? ' (' + checkedCount + ')' : '')}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </block>
+</view>

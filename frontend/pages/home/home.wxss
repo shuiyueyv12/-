@@ -1,0 +1,372 @@
+/* ===== 首页样式（由 styles.css 首页部分迁移，色值展开）===== */
+.page-root {
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+/* ---- 品牌栏 ---- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 21px 9px;
+  background: #ffffff;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  letter-spacing: -0.04em;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 8px 8px 8px 2px;
+  background: #c8102e;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 900;
+  font-family: Arial, sans-serif;
+  transform: skew(-9deg);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 13px;
+  line-height: 14px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.brand-sub {
+  color: #a2a4a9;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  line-height: 13px;
+}
+
+/* ---- 搜索区 ---- */
+.search-area {
+  padding: 8px 20px 15px;
+}
+
+.search-box-input {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  margin-left: 9px;
+  border: 0;
+  background: transparent;
+  color: #18191c;
+  font-size: 13px;
+}
+
+.clear-search-hover {
+  background: #d7d9dd;
+}
+
+.search-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 2px 0;
+  color: #a1a3a8;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 10px;
+}
+
+.hot-link {
+  color: #6f7278;
+  font-size: 10px;
+  padding: 0;
+}
+
+.hot-link-hover {
+  color: #c8102e;
+}
+
+/* ---- 轮播 ---- */
+.hero {
+  display: block;
+  position: relative;
+  height: 205px;
+  margin: 0 20px;
+  overflow: hidden;
+  border-radius: 20px;
+  color: #ffffff;
+  /* 外链图片加载失败时的深色渐变兜底,保证横幅永远不会变成空白 */
+  background: linear-gradient(135deg, #0b0f16 0%, #232b38 100%);
+}
+
+.banner-sand {
+  background: linear-gradient(135deg, #2d1810 0%, #4a2c1a 100%);
+}
+
+.banner-blue {
+  background: linear-gradient(135deg, #071e36 0%, #123a5e 100%);
+}
+
+.hero-swiper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-scrim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(9, 13, 21, 0.86) 0%, rgba(9, 13, 21, 0.37) 53%, rgba(9, 13, 21, 0.04) 100%);
+}
+
+.banner-sand .hero-scrim {
+  background: linear-gradient(90deg, rgba(45, 24, 16, 0.77) 0%, rgba(45, 24, 16, 0.24) 62%, rgba(0, 0, 0, 0) 100%);
+}
+
+.banner-blue .hero-scrim {
+  background: linear-gradient(90deg, rgba(7, 30, 54, 0.88) 0%, rgba(7, 30, 54, 0.32) 61%, rgba(0, 0, 0, 0) 100%);
+}
+
+.hero-content {
+  position: absolute;
+  top: 27px;
+  left: 25px;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  display: block;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  opacity: 0.76;
+}
+
+.hero-h1 {
+  display: block;
+  margin: 9px 0 6px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  line-height: 1.05;
+}
+
+.hero-p {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 21px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #25262a;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap; /* 防止文案被压成竖排,变成"游离的悬浮按钮" */
+}
+
+.hero-cta-hover {
+  transform: translateX(2px);
+  background: #fff3f4;
+}
+
+.hero-controls {
+  position: absolute;
+  right: 17px;
+  bottom: 15px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-ctrl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.hero-ctrl-hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  transition: width 0.2s, background 0.2s;
+}
+
+.dot.active {
+  width: 15px;
+  background: #ffffff;
+}
+
+/* ---- section 通用 ---- */
+.category-section,
+.product-section {
+  padding: 25px 20px 0;
+}
+
+.product-section {
+  padding-top: 31px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 17px;
+}
+
+.section-kicker {
+  color: #c8102e;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+}
+
+.h2 {
+  display: block;
+  margin: 4px 0 0;
+  font-size: 21px;
+  line-height: 1;
+  letter-spacing: -0.07em;
+  font-weight: 700;
+}
+
+.all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+  color: #73767c;
+  font-size: 11px;
+}
+
+.all-link-hover {
+  color: #c8102e;
+}
+
+/* ---- 分类宫格 ---- */
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23%;
+  min-width: 0;
+  color: #18191c;
+}
+
+.category-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 9px;
+  border: 1px solid #eeeef0;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff 20%, #f5f6f7 100%);
+  color: #272a2e;
+  box-shadow: 0 7px 17px rgba(31, 35, 43, 0.05);
+}
+
+.category-item-hover .category-icon {
+  border-color: #dfb2b9;
+  color: #c8102e;
+  box-shadow: 0 8px 20px rgba(200, 16, 46, 0.12);
+  transform: translateY(-3px);
+}
+
+.category-label {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.category-note {
+  max-width: 100%;
+  margin-top: 3px;
+  overflow: hidden;
+  color: #a1a3a8;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.products-heading {
+  margin-bottom: 16px;
+}
+
+.product-count {
+  color: #a1a3a8;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 9px;
+}
+
+/* ---- 网格 ---- */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product-grid-cell {
+  width: calc((100% - 12px) / 2);
+  margin-bottom: 16px;
+}
+
+.empty-state {
+  padding: 34px 14px;
+  border: 1px dashed #dddfe3;
+  border-radius: 14px;
+  color: #92949a;
+  text-align: center;
+  font-size: 12px;
+}

@@ -1,0 +1,420 @@
+/* ===== 我的页样式（由 ProfilePage.css 迁移，色值展开）===== */
+.page-root {
+  background: #ffffff;
+  min-height: 100vh;
+  padding-bottom: 20px;
+}
+
+/* ---- 用户卡片 ---- */
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 12px 20px 0;
+  padding: 20px 16px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #c8102e 0%, #8f0c22 100%);
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(200, 16, 46, 0.24);
+}
+
+.profile-avatar {
+  display: flex;
+  flex: 0 0 54px;
+  width: 54px;
+  height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.profile-avatar.is-user {
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-name {
+  font-size: 17px;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.profile-sub {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 11px;
+}
+
+.profile-login {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 13px;
+  color: #ffffff;
+  text-align: left;
+}
+
+.profile-login-hover {
+  opacity: 0.85;
+}
+
+/* ---- 数据统计 ---- */
+.profile-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 12px 20px 0;
+  padding: 14px 12px;
+  border: 1px solid #ececef;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.stat-cell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.stat-num {
+  color: #18191c;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 17px;
+  letter-spacing: -0.04em;
+}
+
+.stat-label {
+  color: #9a9da2;
+  font-size: 10px;
+}
+
+/* ---- 通用卡片 ---- */
+.profile-card {
+  margin: 12px 20px 0;
+  overflow: hidden;
+  border: 1px solid #ececef;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.profile-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 16px 0;
+}
+
+.profile-card-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.fav-title {
+  display: flex;
+  align-items: center;
+}
+
+.fav-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  margin-left: 5px;
+  border-radius: 8px;
+  background: #fdecee;
+  color: #c8102e;
+  font-size: 9px;
+}
+
+.profile-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0;
+  color: #8b8e94;
+  font-size: 11px;
+}
+
+.profile-more-hover {
+  color: #c8102e;
+}
+
+/* ---- 订单宫格 ---- */
+.order-quick {
+  display: flex;
+  padding: 15px 8px 13px;
+}
+
+.order-quick-cell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  color: #4c4f55;
+  font-size: 10px;
+}
+
+.order-quick-ic {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #f6f7f8;
+  color: #18191c;
+}
+
+.order-quick-cell-hover .order-quick-ic {
+  background: #fdecee;
+}
+
+/* ---- 最近订单 ---- */
+.order-list {
+  margin-top: 4px;
+  border-top: 1px solid #ececef;
+}
+
+.order-item-hover {
+  opacity: 0.9;
+}
+
+.order-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ececef;
+}
+
+.order-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-id {
+  color: #9a9ca1;
+  font-size: 10px;
+}
+
+.order-status {
+  color: #c8102e;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.order-item-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.order-thumbs {
+  display: flex;
+  gap: 7px;
+  overflow: hidden;
+}
+
+.order-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #f2f3f5;
+}
+
+.order-summary {
+  flex: 0 0 auto;
+  color: #777a80;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.order-amount {
+  color: #18191c;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.order-empty {
+  padding: 18px 16px 22px;
+  color: #b0b2b7;
+  font-size: 11px;
+  text-align: center;
+}
+
+/* ---- 我的收藏 ---- */
+.fav-list {
+  margin-top: 10px;
+}
+
+.fav-line {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 16px;
+  border-top: 1px solid #ececef;
+}
+
+.fav-thumb {
+  flex: 0 0 54px;
+  width: 54px;
+  height: 54px;
+  border-radius: 11px;
+  background: #f2f3f5;
+}
+
+.fav-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.fav-name {
+  display: block;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fav-desc {
+  display: block;
+  margin: 4px 0 5px;
+  overflow: hidden;
+  color: #9a9ca1;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fav-price {
+  color: #c8102e;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+
+.fav-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.fav-like,
+.fav-add {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.fav-like {
+  background: #fdecee;
+  color: #c8102e;
+}
+
+.fav-add {
+  background: #f2f3f5;
+  color: #5b5e64;
+}
+
+.fav-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 30px;
+  color: #c3c5ca;
+}
+
+.fav-empty-tip {
+  margin-top: 10px;
+  font-size: 11px;
+}
+
+/* ---- 菜单入口 ---- */
+.menu-card {
+  padding-bottom: 4px;
+}
+
+.profile-cell {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 11px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #ececef;
+  text-align: left;
+}
+
+.menu-card .profile-cell:last-child {
+  border-bottom: 0;
+}
+
+.profile-cell-ic {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #f6f7f8;
+  color: #3d4045;
+}
+
+.profile-cell-label {
+  flex: 1;
+  color: #383a3f;
+  font-size: 12.5px;
+}
+
+.profile-cell-hover {
+  background: #fafbfc;
+}
+
+/* ---- 退出登录 ---- */
+.profile-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: calc(100% - 40px);
+  margin: 12px 20px 0;
+  padding: 13px 0;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #c8102e;
+  border: 1px solid #ececef;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.profile-logout-hover {
+  background: #fdecee;
+}

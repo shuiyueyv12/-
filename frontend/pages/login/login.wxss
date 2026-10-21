@@ -1,0 +1,139 @@
+/* ============================================================
+   pages/login —— 用户名 + 密码 登录 / 注册
+   ============================================================ */
+
+.page-root {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* ---------------- 返回 ---------------- */
+.login-topbar {
+  padding: 4px 12px;
+  background: #ffffff;
+}
+
+.login-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+}
+
+.login-back-hover {
+  background: #f1f2f4;
+}
+
+/* ---------------- 标题 ---------------- */
+.login-head {
+  padding: 12px 24px 0;
+}
+
+.login-kicker {
+  display: block;
+  color: #c8102e;
+  font-family: 'Menlo', 'Consolas', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.login-title {
+  display: block;
+  margin: 8px 0 0;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.login-sub {
+  display: block;
+  margin-top: 8px;
+  color: #85888f;
+  font-size: 12px;
+}
+
+/* ---------------- 登录 / 注册 切换 ---------------- */
+.login-tabs {
+  display: flex;
+  gap: 24px;
+  margin: 26px 24px 0;
+  border-bottom: 1px solid #ececef;
+}
+
+.login-tab {
+  position: relative;
+  padding-bottom: 10px;
+  color: #a3a5aa;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.login-tab.is-active {
+  color: #18191c;
+}
+
+.login-tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: #c8102e;
+}
+
+/* ---------------- 表单 ---------------- */
+.login-form {
+  padding: 24px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  padding: 0 15px;
+  margin-bottom: 14px;
+  border: 1px solid #e9eaed;
+  border-radius: 15px;
+  background: #f7f8f9;
+}
+
+.field-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: #18191c;
+  font-size: 14px;
+}
+
+.field-ph {
+  color: #a9abb0;
+  font-size: 13px;
+}
+
+.login-submit {
+  height: 50px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.login-hint {
+  margin-top: 18px;
+  text-align: center;
+  color: #85888f;
+  font-size: 12px;
+}
+
+.login-hint-link {
+  margin-left: 4px;
+  color: #c8102e;
+  font-weight: 600;
+}

@@ -1,0 +1,141 @@
+/* ===== 全部订单页 ===== */
+.page-root {
+  min-height: 100vh;
+  background: #f1f2f4;
+}
+
+.od-topbar {
+  padding: 8px 20px 12px;
+  background: #f1f2f4;
+}
+
+.od-title {
+  font-size: 23px;
+  font-weight: 700;
+  color: #18191c;
+  letter-spacing: -1px;
+}
+
+/* 状态筛选 */
+.od-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 12px 12px;
+  background: #f1f2f4;
+}
+
+.od-tab {
+  padding: 7px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #55585e;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.od-tab.is-active {
+  background: #c8102e;
+  color: #ffffff;
+}
+
+.od-tab-hover {
+  opacity: 0.85;
+}
+
+/* 列表 */
+.od-list {
+  padding: 0 12px;
+}
+
+.od-card {
+  margin-bottom: 10px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.od-card-hover {
+  opacity: 0.92;
+}
+
+.od-card-head {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f2f3f5;
+}
+
+.od-order-id {
+  font-size: 11px;
+  color: #85888f;
+  font-family: 'Menlo', 'Consolas', monospace;
+}
+
+.od-status {
+  font-size: 12px;
+  font-weight: 700;
+  color: #c8102e;
+}
+
+.od-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+.od-thumbs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.od-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background: #f6f7f8;
+}
+
+.od-thumb-empty {
+  font-size: 11px;
+  color: #a9abb0;
+}
+
+.od-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.od-count {
+  font-size: 11px;
+  color: #85888f;
+}
+
+.od-amount {
+  font-size: 15px;
+  font-weight: 800;
+  color: #18191c;
+}
+
+.od-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #f2f3f5;
+}
+
+.od-time {
+  font-size: 10px;
+  color: #a1a3a8;
+  font-family: 'Menlo', 'Consolas', monospace;
+}
+
+.od-goto {
+  font-size: 11px;
+  color: #55585e;
+  font-weight: 600;
+}

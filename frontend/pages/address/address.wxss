@@ -1,0 +1,245 @@
+/* ===== 收货地址页 ===== */
+.page-root {
+  min-height: 100vh;
+  background: #f1f2f4;
+}
+
+.ad-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #f1f2f4;
+}
+
+.ad-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.ad-back-hover {
+  opacity: 0.8;
+}
+
+.ad-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+/* 列表 */
+.ad-list {
+  padding: 10px 12px 0;
+}
+
+.ad-item {
+  margin-bottom: 10px;
+  padding: 16px;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.ad-item-hover {
+  opacity: 0.92;
+}
+
+.ad-item-main {
+  min-width: 0;
+}
+
+.ad-item-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ad-item-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+.ad-item-phone {
+  font-size: 12px;
+  color: #85888f;
+}
+
+.ad-item-default {
+  padding: 1px 8px;
+  border: 1px solid #c8102e;
+  border-radius: 8px;
+  color: #c8102e;
+  font-size: 10px;
+}
+
+.ad-item-detail {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #55585e;
+}
+
+.ad-item-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #f2f3f5;
+}
+
+.ad-act {
+  padding: 5px 12px;
+  border-radius: 10px;
+  background: #f6f7f8;
+  color: #55585e;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ad-act.is-danger {
+  color: #c8102e;
+}
+
+.ad-act-hover {
+  opacity: 0.75;
+}
+
+/* 表单卡片 */
+.ad-form-card {
+  margin: 10px 12px 0;
+  padding: 16px;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.ad-card-title {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+.ad-field {
+  display: flex;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid #f2f3f5;
+}
+
+.ad-field-label {
+  flex: 0 0 70px;
+  font-size: 13px;
+  color: #55585e;
+}
+
+.ad-field-input {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  font-size: 14px;
+  color: #18191c;
+}
+
+.ad-field-ph {
+  color: #a9abb0;
+  font-size: 13px;
+}
+
+.ad-default-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #55585e;
+}
+
+.ad-default-row-hover {
+  opacity: 0.75;
+}
+
+.ad-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #d4d5d9;
+  border-radius: 50%;
+}
+
+.ad-check.on {
+  border-color: #c8102e;
+  background: #c8102e;
+}
+
+.ad-form-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.ad-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ad-btn.is-ghost {
+  border: 1.5px solid #d4d5d9;
+  color: #55585e;
+  background: #ffffff;
+}
+
+.ad-btn.is-solid {
+  background: #c8102e;
+  color: #ffffff;
+}
+
+.ad-btn-hover {
+  opacity: 0.85;
+}
+
+.ad-bottom-space {
+  height: 86px;
+}
+
+/* 底部新增按钮 */
+.ad-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.ad-bar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 46px;
+  border-radius: 14px;
+  background: #c8102e;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ad-bar-btn-hover {
+  background: #ec1a3b;
+}

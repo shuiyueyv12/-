@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>华为商城 · 管理后台</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
+<script src="/vendor/vue.global.prod.js"></script>
+<style>
+/* ============ 基础 ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --primary: #0A59F7; --primary-dark: #2B6DE5;
+  --sidebar: #1F2B3E; --sidebar-hover: #2A3B54;
+  --bg: #F5F7FA; --card: #FFFFFF;
+  --text: #1F2D3D; --text-2: #7A8B9F;
+  --ok: #00B578; --danger: #FA5151; --warn: #FF8F1F;
+  --border: #E8ECF1;
+  --shadow: 0 1px 3px rgba(31,43,62,.06), 0 4px 16px rgba(31,43,62,.06);
+  --shadow-lg: 0 8px 32px rgba(31,43,62,.16);
+}
+body { font-family: 'PingFang SC','Microsoft YaHei',sans-serif; font-size: 13px; color: var(--text); background: var(--bg); }
+button { cursor: pointer; font-family: inherit; }
+input, select, textarea { font-family: inherit; font-size: 13px; color: var(--text); outline: none; }
+[disabled] { opacity: .55; cursor: not-allowed; }
+
+/* ============ 登录页 ============ */
+.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #1F2B3E 0%, #2B4A7A 55%, #0A59F7 130%); }
+.login-card { width: 380px; background: #fff; border-radius: 16px; padding: 40px 36px 36px;
+  box-shadow: var(--shadow-lg); animation: rise .45s ease; position: relative; overflow: hidden; }
+.login-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--primary), #7B2FF7); }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+.login-logo { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, var(--primary), #7B2FF7);
+  display: flex; align-items: center; justify-content: center; color: #fff; font-size: 26px; margin-bottom: 18px; }
+.login-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.login-sub { color: var(--text-2); margin-bottom: 26px; }
+.login-err { background: #FEF0F0; color: var(--danger); border-radius: 8px; padding: 9px 12px; margin-bottom: 14px; }
+
+/* ============ 表单控件 ============ */
+.field { margin-bottom: 16px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+.field .tip { color: var(--text-2); font-weight: 400; margin-left: 4px; }
+.ipt, select.ipt, textarea.ipt { width: 100%; border: 1px solid var(--border); border-radius: 8px;
+  padding: 9px 12px; background: #fff; transition: border .15s, box-shadow .15s; }
+.ipt:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(10,89,247,.12); }
+textarea.ipt { resize: vertical; min-height: 64px; }
+.switch { position: relative; width: 38px; height: 21px; background: #CBD4DE; border-radius: 21px; border: none; transition: background .2s; }
+.switch.on { background: var(--ok); }
+.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 17px; height: 17px;
+  border-radius: 50%; background: #fff; transition: left .2s; }
+.switch.on::after { left: 19px; }
+
+/* ============ 按钮 ============ */
+.btn { border: none; border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 500;
+  transition: all .15s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(10,89,247,.3); }
+.btn-ghost { background: #fff; border: 1px solid var(--border); color: var(--text); }
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+.btn-danger { background: #FEF0F0; color: var(--danger); }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+.btn-ok { background: #E8F8F1; color: var(--ok); }
+.btn-ok:hover { background: var(--ok); color: #fff; }
+.btn-block { width: 100%; justify-content: center; padding: 11px; font-size: 14px; }
+.btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
+.link { background: none; border: none; color: var(--primary); font-size: 12px; padding: 3px 6px; border-radius: 5px; }
+.link:hover { background: rgba(10,89,247,.08); }
+.link.danger { color: var(--danger); }
+.link.danger:hover { background: #FEF0F0; }
+
+/* ============ 布局 ============ */
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 216px; background: var(--sidebar); color: #B7C3D2; display: flex; flex-direction: column;
+  position: fixed; top: 0; bottom: 0; left: 0; z-index: 20; transition: width .2s; }
+.sidebar.folded { width: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 20px 18px; color: #fff; }
+.brand-icon { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, var(--primary), #7B2FF7);
+  display: flex; align-items: center; justify-content: center; font-size: 17px; flex: none; }
+.brand-name { font-size: 15px; font-weight: 600; white-space: nowrap; }
+.brand-name small { display: block; font-size: 10px; color: #7A8B9F; font-weight: 400; }
+.nav { flex: 1; padding: 8px 10px; overflow-y: auto; }
+.nav-item { display: flex; align-items: center; gap: 11px; padding: 11px 12px; border-radius: 9px;
+  margin-bottom: 2px; cursor: pointer; transition: all .15s; white-space: nowrap; border: none; background: none;
+  color: #B7C3D2; width: 100%; font-size: 13px; text-align: left; }
+.nav-item:hover { background: var(--sidebar-hover); color: #fff; }
+.nav-item.active { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(10,89,247,.35); }
+.nav-item .ico { width: 17px; text-align: center; flex: none; font-size: 15px; }
+.sidebar .foot { padding: 14px; border-top: 1px solid rgba(255,255,255,.08); }
+.main { flex: 1; margin-left: 216px; transition: margin .2s; display: flex; flex-direction: column; min-width: 0; }
+.main.folded { margin-left: 64px; }
+.topbar { height: 58px; background: #fff; border-bottom: 1px solid var(--border); display: flex;
+  align-items: center; padding: 0 24px; gap: 14px; position: sticky; top: 0; z-index: 10; }
+.topbar h1 { font-size: 16px; font-weight: 600; flex: 1; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #7B2FF7);
+  color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+.content { padding: 20px 24px 40px; flex: 1; }
+
+/* ============ 卡片 / 统计 ============ */
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+.stat-card { background: var(--card); border-radius: 12px; padding: 18px; box-shadow: var(--shadow);
+  display: flex; align-items: center; gap: 14px; transition: transform .15s, box-shadow .15s; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.stat-ico { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center;
+  justify-content: center; font-size: 20px; flex: none; }
+.stat-num { font-size: 22px; font-weight: 700; line-height: 1.2; }
+.stat-label { color: var(--text-2); margin-top: 2px; }
+.panel { background: var(--card); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 18px; }
+.panel-head { padding: 15px 18px; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 14px;
+  display: flex; align-items: center; gap: 10px; }
+.panel-body { padding: 16px 18px; }
+
+/* ============ 工具栏 / 表格 ============ */
+.toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.toolbar .ipt { width: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-size: 12px; color: var(--text-2); font-weight: 500; padding: 10px 12px;
+  border-bottom: 1px solid var(--border); background: #FAFBFC; white-space: nowrap; }
+td { padding: 11px 12px; border-bottom: 1px solid #F0F3F6; vertical-align: middle; }
+tbody tr { transition: background .12s; }
+tbody tr:hover { background: #F7FAFF; }
+.thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: #EEF1F5; display: block; }
+.tag { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 12px; }
+.tag-blue { background: rgba(10,89,247,.1); color: var(--primary); }
+.tag-ok { background: #E8F8F1; color: var(--ok); }
+.tag-gray { background: #EEF1F5; color: var(--text-2); }
+.tag-warn { background: #FFF4E5; color: var(--warn); }
+.tag-danger { background: #FEF0F0; color: var(--danger); }
+.pager { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 14px 16px; }
+.pager .info { color: var(--text-2); margin-right: auto; }
+.empty { text-align: center; color: var(--text-2); padding: 46px 0; }
+.money { font-weight: 600; }
+.sub-name { color: var(--text-2); font-size: 12px; }
+
+/* ============ Tabs ============ */
+.tabs { display: flex; gap: 4px; background: #EEF1F5; border-radius: 9px; padding: 4px; width: fit-content; margin-bottom: 14px; flex-wrap: wrap; }
+.tab { border: none; background: none; padding: 7px 14px; border-radius: 7px; font-size: 13px; color: var(--text-2); transition: all .15s; }
+.tab:hover { color: var(--text); }
+.tab.active { background: #fff; color: var(--primary); font-weight: 600; box-shadow: 0 1px 4px rgba(31,43,62,.12); }
+
+/* ============ 抽屉 ============ */
+.mask { position: fixed; inset: 0; background: rgba(15,23,42,.45); z-index: 30; animation: fade .2s; }
+@keyframes fade { from { opacity: 0; } }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 560px; max-width: 94vw; background: #fff;
+  z-index: 31; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; animation: slide .25s ease; }
+@keyframes slide { from { transform: translateX(60px); opacity: 0; } }
+.drawer-head { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+.drawer-head h3 { font-size: 15px; flex: 1; }
+.drawer-body { flex: 1; overflow-y: auto; padding: 20px 22px; }
+.drawer-foot { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
+.x-btn { border: none; background: #F0F3F6; width: 28px; height: 28px; border-radius: 7px; font-size: 14px; color: var(--text-2); }
+.x-btn:hover { background: #E3E8EE; color: var(--text); }
+
+/* ============ 弹窗 ============ */
+.modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; z-index: 31;
+  border-radius: 14px; width: 480px; max-width: 92vw; max-height: 88vh; display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg); animation: pop .22s ease; }
+@keyframes pop { from { transform: translate(-50%,-46%) scale(.97); opacity: 0; } }
+.modal-head { padding: 17px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+.modal-head h3 { font-size: 15px; flex: 1; }
+.modal-body { padding: 20px; overflow-y: auto; }
+.modal-foot { padding: 13px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+
+/* ============ 商品编辑器 ============ */
+.img-list { display: flex; gap: 10px; flex-wrap: wrap; }
+.img-item { position: relative; width: 76px; }
+.img-item img { width: 76px; height: 76px; border-radius: 9px; object-fit: cover; border: 1px solid var(--border); display: block; }
+.img-item .ops { position: absolute; top: -7px; right: -7px; display: flex; gap: 3px; }
+.img-item .ops button { width: 20px; height: 20px; border-radius: 50%; border: none; background: var(--sidebar); color: #fff; font-size: 10px; line-height: 1; }
+.img-item .ops button:hover { background: var(--danger); }
+.sect { border-top: 1px dashed var(--border); margin: 20px 0 14px; padding-top: 14px;
+  font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+
+/* ============ 时间轴 ============ */
+.timeline { list-style: none; }
+.timeline li { position: relative; padding: 0 0 18px 22px; border-left: 2px solid #E3E8EE; margin-left: 6px; }
+.timeline li:last-child { border-left-color: transparent; padding-bottom: 2px; }
+.timeline li::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px;
+  border-radius: 50%; background: #fff; border: 2px solid var(--primary); }
+.timeline .t-status { font-weight: 600; }
+.timeline .t-remark { color: var(--text-2); margin-top: 2px; }
+
+/* ============ Toast ============ */
+.toast { position: fixed; top: 22px; left: 50%; transform: translateX(-50%); z-index: 99;
+  padding: 11px 22px; border-radius: 10px; color: #fff; font-size: 13px; box-shadow: var(--shadow-lg); animation: rise .25s; }
+.toast.ok { background: var(--ok); }
+.toast.err { background: var(--danger); }
+.fade-enter-active, .fade-leave-active { transition: opacity .2s; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const { createApp, ref, reactive, computed, onMounted, watch } = Vue
+
+/* ================= API 封装 ================= */
+const TOKEN_KEY = 'mall_admin_token'
+function getToken() { return localStorage.getItem(TOKEN_KEY) || '' }
+function setToken(t) { t ? localStorage.setItem(TOKEN_KEY, t) : localStorage.removeItem(TOKEN_KEY) }
+
+async function api(path, { method = 'GET', body, query } = {}) {
+  let url = '/admin/api' + path
+  if (query) {
+    const qs = new URLSearchParams(Object.entries(query).filter(([, v]) => v !== '' && v != null))
+    if (qs.toString()) url += '?' + qs.toString()
+  }
+  const res = await fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(getToken() ? { Authorization: 'Bearer ' + getToken() } : {}),
+    },
+    body: body != null ? JSON.stringify(body) : undefined,
+  })
+  let data = null
+  try { data = await res.json() } catch (e) { /* non-json */ }
+  if (res.status === 401) {
+    setToken('')
+    if (!path.startsWith('/auth/login')) location.reload()
+    throw new Error((data && data.message) || '未登录')
+  }
+  if (!res.ok) throw new Error((data && data.message) || ('请求失败 ' + res.status))
+  return data
+}
+
+const fmtMoney = (n) => Number(n || 0).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+const fmtTime = (s) => (s ? String(s).replace('T', ' ').slice(0, 16) : '-')
+// 管理端订单详情 JSON 里的时间毫秒戳(SQL 行则直接是字符串,两者都兼容)
+const fmtMs = (t) => (t ? new Date(Number(t)).toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-').slice(0, 16) : '-')
+
+const app = createApp({
+  setup() {
+    /* ---------- 全局状态 ---------- */
+    const booted = ref(false)
+    const token = ref(getToken())
+    const admin = ref(null)
+    const view = ref('dashboard')
+    const toast = reactive({ show: false, type: 'ok', text: '' })
+    let toastTimer = null
+    function showToast(text, type = 'ok') {
+      toast.show = true; toast.type = type; toast.text = text
+      clearTimeout(toastTimer); toastTimer = setTimeout(() => (toast.show = false), 2600)
+    }
+    const confirmBox = reactive({ show: false, text: '', onOk: null })
+    function askConfirm(text, onOk) { confirmBox.show = true; confirmBox.text = text; confirmBox.onOk = onOk }
+    function doConfirm() { confirmBox.show = false; if (confirmBox.onOk) confirmBox.onOk() }
+
+    /* ---------- 登录 ---------- */
+    const loginForm = reactive({ username: '', password: '', loading: false, err: '' })
+    async function doLogin() {
+      loginForm.err = ''
+      if (!loginForm.username || !loginForm.password) { loginForm.err = '请输入用户名和密码'; return }
+      loginForm.loading = true
+      try {
+        const r = await api('/auth/login', { method: 'POST', body: { username: loginForm.username, password: loginForm.password } })
+        setToken(r.token); token.value = r.token; admin.value = r.admin
+        loadView()
+      } catch (e) { loginForm.err = e.message }
+      loginForm.loading = false
+    }
+    function logout() { setToken(''); token.value = ''; admin.value = null }
+
+    /* ---------- 菜单 ---------- */
+    const menus = [
+      { key: 'dashboard', ico: '📊', label: '仪表盘' },
+      { key: 'products', ico: '📦', label: '商品管理' },
+      { key: 'categories', ico: '🗂️', label: '分类管理' },
+      { key: 'banners', ico: '🖼️', label: '轮播图' },
+      { key: 'orders', ico: '📋', label: '订单管理' },
+      { key: 'users', ico: '👥', label: '用户管理' },
+      { key: 'payments', ico: '💰', label: '支付流水' },
+    ]
+    const viewTitle = computed(() => (menus.find((m) => m.key === view.value) || {}).label || '')
+    const folded = ref(false)
+
+    /* ---------- 仪表盘 ---------- */
+    const dash = ref(null)
+    async function loadDashboard() { dash.value = await api('/dashboard') }
+
+    /* ---------- 商品 ---------- */
+    const prod = reactive({ list: [], total: 0, page: 1, pageSize: 10, keyword: '', categoryId: '', status: '', loading: false })
+    const cats = ref([])
+    const editor = reactive({ show: false, saving: false, id: null, form: {}, images: [], skus: [] })
+    async function loadProducts() {
+      prod.loading = true
+      try {
+        const r = await api('/products', { query: { page: prod.page, pageSize: prod.pageSize, keyword: prod.keyword, categoryId: prod.categoryId, status: prod.status } })
+        prod.list = r.list; prod.total = r.total
+      } catch (e) { showToast(e.message, 'err') }
+      prod.loading = false
+    }
+    async function loadCats() {
+      if (!cats.value.length) cats.value = await api('/categories')
+    }
+    function blankForm() {
+      return { name: '', desc: '', categoryId: '', sub: '', price: 0, originalPrice: 0, stock: 0, tag: '', featured: false, image: '', sort: 0 }
+    }
+    async function openEditor(row) {
+      editor.show = true; editor.saving = false
+      await loadCats()
+      if (row) {
+        const d = await api('/products/' + row.id)
+        editor.id = d.id
+        editor.form = { name: d.name, desc: d.desc, categoryId: d.categoryId, sub: d.sub, price: Number(d.price), originalPrice: Number(d.originalPrice), stock: Number(d.stock), tag: d.tag, featured: !!Number(d.featured), image: d.image, sort: Number(d.sort) }
+        editor.images = [...d.images]
+        editor.skus = d.skus.map((s) => ({ ...s, price: Number(s.price), stock: Number(s.stock) }))
+      } else {
+        editor.id = null; editor.form = blankForm(); editor.images = []; editor.skus = []
+      }
+    }
+    function addImage() {
+      const url = prompt('输入图片 URL')
+      if (url && url.trim()) editor.images.push(url.trim())
+    }
+    function moveImage(i, d) {
+      const j = i + d; if (j < 0 || j >= editor.images.length) return
+      const a = [...editor.images]; [a[i], a[j]] = [a[j], a[i]]; editor.images = a
+    }
+    function addSku() { editor.skus.push({ id: null, specText: '', specValues: {}, price: editor.form.price || 0, stock: 0, image: '', code: '', sort: editor.skus.length }) }
+    function rmSku(i) { editor.skus.splice(i, 1) }
+    async function saveProduct() {
+      const f = editor.form
+      if (!f.name.trim()) return showToast('请填写商品名称', 'err')
+      if (!f.categoryId) return showToast('请选择分类', 'err')
+      editor.saving = true
+      try {
+        const body = { ...f, originalPrice: Number(f.originalPrice) || 0, images: editor.images, skus: editor.skus }
+        const r = editor.id
+          ? await api('/products/' + editor.id, { method: 'PUT', body })
+          : await api('/products', { method: 'POST', body })
+        editor.show = false
+        showToast(editor.id ? '商品已更新' : '商品已创建 (ID ' + r.id + ')')
+        loadProducts()
+      } catch (e) { showToast(e.message, 'err') }
+      editor.saving = false
+    }
+    function toggleProduct(row) {
+      const next = Number(row.status) ? 0 : 1
+      askConfirm(`确定要${next ? '上架' : '下架'}「${row.name}」吗？`, async () => {
+        try { await api(`/products/${row.id}/status`, { method: 'PUT', body: { status: next } }); showToast('已' + (next ? '上架' : '下架')); loadProducts() }
+        catch (e) { showToast(e.message, 'err') }
+      })
+    }
+    function removeProduct(row) {
+      askConfirm(`确定删除「${row.name}」？若已被订单引用将自动转为下架。`, async () => {
+        try {
+          const r = await api('/products/' + row.id, { method: 'DELETE' })
+          showToast(r.softDeleted ? '商品已被引用,已下架处理' : '商品已删除')
+          loadProducts()
+        } catch (e) { showToast(e.message, 'err') }
+      })
+    }
+
+    /* ---------- 分类 ---------- */
+    const catsView = ref([])
+    const catModal = reactive({ show: false, saving: false, id: null, form: {}, subs: [] })
+    async function loadCatsView() { catsView.value = await api('/categories') }
+    function openCatModal(row) {
+      catModal.show = true
+      catModal.newId = ''
+      if (row) {
+        catModal.id = row.id
+        catModal.form = { label: row.label, note: row.note, icon: row.icon, sort: Number(row.sort), enabled: !!Number(row.enabled) }
+        catModal.subs = row.subs.map((s) => ({ ...s, enabled: !!Number(s.enabled) }))
+      } else {
+        catModal.id = null; catModal.form = { label: '', note: '', icon: '', sort: 0, enabled: true }; catModal.subs = []
+      }
+    }
+    function addSub() { catModal.subs.push({ id: null, name: '', sort: catModal.subs.length, enabled: true }) }
+    function rmSub(i) { catModal.subs.splice(i, 1) }
+    async function saveCat() {
+      if (!catModal.form.label.trim()) return showToast('请填写分类名称', 'err')
+      catModal.saving = true
+      try {
+        const body = { id: catModal.id, ...catModal.form, enabled: catModal.form.enabled ? 1 : 0, subs: catModal.subs.map((s) => ({ ...s, enabled: s.enabled ? 1 : 0 })) }
+        if (catModal.id) await api('/categories/' + catModal.id, { method: 'PUT', body })
+        else {
+          const newId = (catModal.newId || '').trim()
+          if (!newId) { catModal.saving = false; return showToast('请填写分类 ID', 'err') }
+          body.id = newId
+          await api('/categories', { method: 'POST', body })
+        }
+        catModal.show = false; showToast('分类已保存'); loadCatsView(); cats.value = []
+      } catch (e) { showToast(e.message, 'err') }
+      catModal.saving = false
+    }
+    function removeCat(row) {
+      askConfirm(`确定删除分类「${row.label}」？`, async () => {
+        try { await api('/categories/' + row.id, { method: 'DELETE' }); showToast('分类已删除'); loadCatsView(); cats.value = [] }
+        catch (e) { showToast(e.message, 'err') }
+      })
+    }
+
+    /* ---------- 轮播 ---------- */
+    const banners = ref([])
+    const bnModal = reactive({ show: false, saving: false, id: null, form: {} })
+    async function loadBanners() { banners.value = await api('/banners') }
+    function openBnModal(row) {
+      bnModal.show = true
+      bnModal.id = row ? row.id : null
+      bnModal.form = row
+        ? { eyebrow: row.eyebrow, title: row.title, copy: row.copy, action: row.action, image: row.image, tone: row.tone, enabled: !!Number(row.enabled) }
+        : { eyebrow: '', title: '', copy: '', action: '', image: '', tone: '', enabled: true }
+    }
+    async function saveBanner() {
+      if (!bnModal.form.title.trim()) return showToast('请填写轮播标题', 'err')
+      bnModal.saving = true
+      try {
+        const body = { ...bnModal.form, enabled: bnModal.form.enabled ? 1 : 0 }
+        if (bnModal.id) await api('/banners/' + bnModal.id, { method: 'PUT', body })
+        else await api('/banners', { method: 'POST', body })
+        bnModal.show = false; showToast('轮播已保存'); loadBanners()
+      } catch (e) { showToast(e.message, 'err') }
+      bnModal.saving = false
+    }
+    function removeBanner(row) {
+      askConfirm(`确定删除轮播「${row.title}」？`, async () => {
+        try { await api('/banners/' + row.id, { method: 'DELETE' }); showToast('已删除'); loadBanners() }
+        catch (e) { showToast(e.message, 'err') }
+      })
+    }
+    async function moveBanner(row, d) {
+      const i = banners.value.findIndex((b) => b.id === row.id)
+      const j = i + d; if (j < 0 || j >= banners.value.length) return
+      const a = [...banners.value]; [a[i], a[j]] = [a[j], a[i]]
+      try { await api('/banners/sort', { method: 'PUT', body: { ids: a.map((b) => b.id) } }); loadBanners() }
+      catch (e) { showToast(e.message, 'err') }
+    }
+
+    /* ---------- 订单 ---------- */
+    const orders = reactive({ list: [], total: 0, page: 1, pageSize: 10, status: '', keyword: '', counts: [], loading: false })
+    const orderDetail = reactive({ show: false, data: null, loading: false })
+    const shipModal = reactive({ show: false, saving: false, orderNo: '', shipCompany: '顺丰速运', trackingNo: '' })
+    const STATUS_TABS = ['', '待付款', '待发货', '待收货', '已完成', '已取消']
+    const statusTag = (s) => ({ '待付款': 'tag-warn', '待发货': 'tag-blue', '待收货': 'tag-blue', '已完成': 'tag-ok', '已取消': 'tag-gray' }[s] || 'tag-gray')
+    async function loadOrders() {
+      orders.loading = true
+      try {
+        const r = await api('/orders', { query: { page: orders.page, pageSize: orders.pageSize, status: orders.status, keyword: orders.keyword } })
+        orders.list = r.list; orders.total = r.total; orders.counts = r.counts || []
+      } catch (e) { showToast(e.message, 'err') }
+      orders.loading = false
+    }
+    const countOf = (s) => ((orders.counts.find((c) => c.status === s) || {}).n || 0)
+    async function openOrder(row) {
+      orderDetail.show = true; orderDetail.loading = true
+      try { orderDetail.data = await api('/orders/' + row.order_no) } catch (e) { showToast(e.message, 'err') }
+      orderDetail.loading = false
+    }
+    function openShip(row) {
+      shipModal.orderNo = row.order_no; shipModal.trackingNo = ''
+      shipModal.shipCompany = '顺丰速运'; shipModal.show = true
+    }
+    async function doShip() {
+      shipModal.saving = true
+      try {
+        await api(`/orders/${shipModal.orderNo}/ship`, { method: 'POST', body: { shipCompany: shipModal.shipCompany, trackingNo: shipModal.trackingNo || undefined } })
+        shipModal.show = false; showToast('已发货'); loadOrders()
+      } catch (e) { showToast(e.message, 'err') }
+      shipModal.saving = false
+    }
+    function cancelOrder(row) {
+      askConfirm(`确定取消订单 ${row.order_no}？取消后库存将自动回补。`, async () => {
+        try { await api(`/orders/${row.order_no}/cancel`, { method: 'POST' }); showToast('订单已取消,库存已回补'); loadOrders() }
+        catch (e) { showToast(e.message, 'err') }
+      })
+    }
+
+    /* ---------- 用户 ---------- */
+    const users = reactive({ list: [], total: 0, page: 1, pageSize: 10, keyword: '', status: '', loading: false })
+    async function loadUsers() {
+      users.loading = true
+      try {
+        const r = await api('/users', { query: { page: users.page, pageSize: users.pageSize, keyword: users.keyword, status: users.status } })
+        users.list = r.list; users.total = r.total
+      } catch (e) { showToast(e.message, 'err') }
+      users.loading = false
+    }
+    function toggleUser(row) {
+      const next = Number(row.status) ? 0 : 1
+      askConfirm(`确定要${next ? '启用' : '禁用'}用户「${row.nickname || row.username}」吗？`, async () => {
+        try { await api(`/users/${row.id}/status`, { method: 'PUT', body: { status: next } }); showToast('已' + (next ? '启用' : '禁用')); loadUsers() }
+        catch (e) { showToast(e.message, 'err') }
+      })
+    }
+
+    /* ---------- 支付流水 ---------- */
+    const pays = reactive({ list: [], total: 0, page: 1, pageSize: 10, orderNo: '', loading: false })
+    async function loadPays() {
+      pays.loading = true
+      try {
+        const r = await api('/payments', { query: { page: pays.page, pageSize: pays.pageSize, orderNo: pays.orderNo } })
+        pays.list = r.list; pays.total = r.total
+      } catch (e) { showToast(e.message, 'err') }
+      pays.loading = false
+    }
+
+    /* ---------- 分页与视图加载 ---------- */
+    const pageTotal = (total, size) => Math.max(1, Math.ceil(total / size))
+    function goPage(dir) {
+      const map = { products: prod, orders, users, pays }
+      const s = map[view.value]; if (!s) return
+      const max = pageTotal(s.total, s.pageSize)
+      const next = s.page + dir
+      if (next < 1 || next > max) return
+      s.page = next; loadView()
+    }
+    function loadView() {
+      const loaders = {
+        dashboard: loadDashboard,
+        products: () => { loadProducts(); loadCatsView() },
+        categories: loadCatsView,
+        banners: loadBanners,
+        orders: loadOrders,
+        users: loadUsers,
+        payments: loadPays,
+      }
+      ;(loaders[view.value] || (() => {}))()
+    }
+    function switchView(key) { view.value = key; loadView() }
+
+    onMounted(async () => {
+      if (token.value) {
+        try { admin.value = await api('/auth/me'); loadView() }
+        catch (e) { token.value = '' }
+      }
+      booted.value = true
+    })
+
+    return {
+      booted, token, admin, view, menus, viewTitle, folded,
+      toast, confirmBox, askConfirm, doConfirm, showToast, fmtMoney, fmtTime, fmtMs, statusTag,
+      loginForm, doLogin, logout,
+      dash,
+      prod, pageTotal, goPage, openEditor, toggleProduct, removeProduct,
+      editor, addImage, moveImage, rmImage: (i) => editor.images.splice(i, 1), saveProduct, addSku,
+      cats, catsView, catModal, openCatModal, addSub, rmSub, saveCat, removeCat, loadCatsView,
+      banners, bnModal, openBnModal, saveBanner, removeBanner, moveBanner,
+      orders, STATUS_TABS, countOf, openOrder, orderDetail, shipModal, openShip, doShip, cancelOrder, loadOrders,
+      users, toggleUser,
+      pays, loadPays,
+      switchView,
+    }
+  },
+  template: '#app-tpl',
+})
+
+// 模板 <script type="text/x-template" id="app-tpl"> 位于本脚本之后,
+// 必须等 DOM 解析完成再挂载,否则模板选择器取不到内容
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => app.mount('#app'))
+} else {
+  app.mount('#app')
+}
+</script>
+
+<!-- ================= 模板 ================= -->
+<script type="text/x-template" id="app-tpl">
+<div>
+  <!-- Toast -->
+  <transition name="fade"><div v-if="toast.show" class="toast" :class="toast.type">{{ toast.text }}</div></transition>
+
+  <!-- 确认弹窗 -->
+  <template v-if="confirmBox.show">
+    <div class="mask" @click="confirmBox.show = false"></div>
+    <div class="modal" style="width: 380px">
+      <div class="modal-body" style="padding: 26px 22px 8px; font-size: 14px; text-align: center;">{{ confirmBox.text }}</div>
+      <div class="modal-foot" style="border: none; justify-content: center; padding-bottom: 20px">
+        <button class="btn btn-ghost" @click="confirmBox.show = false">取消</button>
+        <button class="btn btn-primary" @click="doConfirm">确定</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- ============ 登录页 ============ -->
+  <div v-if="!token && booted" class="login-wrap">
+    <form class="login-card" @submit.prevent="doLogin">
+      <div class="login-logo">🛍️</div>
+      <div class="login-title">华为商城 · 管理后台</div>
+      <div class="login-sub">Mall Admin Console</div>
+      <div v-if="loginForm.err" class="login-err">{{ loginForm.err }}</div>
+      <div class="field">
+        <label>用户名</label>
+        <input class="ipt" v-model.trim="loginForm.username" placeholder="请输入管理员用户名" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>密码</label>
+        <input class="ipt" type="password" v-model="loginForm.password" placeholder="请输入密码" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary btn-block" :disabled="loginForm.loading">{{ loginForm.loading ? '登录中…' : '登 录' }}</button>
+      <p style="margin-top: 16px; color: var(--text-2); text-align: center; font-size: 12px">默认账号 admin / admin123，登录后请修改密码</p>
+    </form>
+  </div>
+
+  <!-- ============ 主布局 ============ -->
+  <div v-if="token && admin" class="layout">
+    <aside class="sidebar" :class="{ folded }">
+      <div class="brand">
+        <div class="brand-icon">🛍️</div>
+        <div class="brand-name" v-if="!folded">华为商城<small>Admin Console</small></div>
+      </div>
+      <nav class="nav">
+        <button v-for="m in menus" :key="m.key" class="nav-item" :class="{ active: view === m.key }" @click="switchView(m.key)">
+          <span class="ico">{{ m.ico }}</span><span v-if="!folded">{{ m.label }}</span>
+        </button>
+      </nav>
+      <div class="foot">
+        <button class="nav-item" @click="logout"><span class="ico">🚪</span><span v-if="!folded">退出登录</span></button>
+      </div>
+    </aside>
+
+    <div class="main" :class="{ folded }">
+      <header class="topbar">
+        <button class="x-btn" @click="folded = !folded">☰</button>
+        <h1>{{ viewTitle }}</h1>
+        <div class="avatar">{{ (admin.nickname || 'A')[0] }}</div>
+        <span style="color: var(--text-2)">{{ admin.nickname }}</span>
+      </header>
+
+      <main class="content">
+        <!-- ========== 仪表盘 ========== -->
+        <template v-if="view === 'dashboard'">
+          <div v-if="dash" class="cards">
+            <div class="stat-card"><div class="stat-ico" style="background:#EAF1FF">📦</div><div><div class="stat-num">{{ dash.productCount }}</div><div class="stat-label">在库商品 (库存 {{ dash.totalStock }})</div></div></div>
+            <div class="stat-card"><div class="stat-ico" style="background:#E8F8F1">📋</div><div><div class="stat-num">{{ dash.orderCount }}</div><div class="stat-label">累计订单 (今日 +{{ dash.todayOrders }})</div></div></div>
+            <div class="stat-card"><div class="stat-ico" style="background:#FFF4E5">💰</div><div><div class="stat-num">¥{{ fmtMoney(dash.salesAmount) }}</div><div class="stat-label">销售总额</div></div></div>
+            <div class="stat-card"><div class="stat-ico" style="background:#FEF0F0">🚚</div><div><div class="stat-num">{{ dash.pendingShip }}</div><div class="stat-label">待发货 (用户 {{ dash.userCount }})</div></div></div>
+          </div>
+          <div v-if="dash" style="display: grid; grid-template-columns: 3fr 2fr; gap: 18px">
+            <div class="panel">
+              <div class="panel-head">最近订单</div>
+              <table>
+                <thead><tr><th>订单号</th><th>收货人</th><th>金额</th><th>状态</th><th>时间</th></tr></thead>
+                <tbody>
+                  <tr v-for="o in dash.recentOrders" :key="o.order_no">
+                    <td>{{ o.order_no }}</td><td>{{ o.receiver }}</td>
+                    <td class="money">¥{{ fmtMoney(o.amount) }}</td>
+                    <td><span class="tag" :class="statusTag(o.status)">{{ o.status }}</span></td>
+                    <td class="sub-name">{{ fmtTime(o.created_at) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div v-if="!dash.recentOrders.length" class="empty">暂无订单</div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">热销商品 TOP5</div>
+              <div class="panel-body" v-if="dash.topProducts.length">
+                <div v-for="(t, i) in dash.topProducts" :key="i" style="display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom: 1px solid #F0F3F6">
+                  <span class="tag" :class="i < 3 ? 'tag-warn' : 'tag-gray'">{{ i + 1 }}</span>
+                  <span style="flex:1">{{ t.name_snapshot }}</span>
+                  <span style="color: var(--text-2)">售 {{ t.qty }}</span>
+                </div>
+              </div>
+              <div v-else class="empty">暂无销量数据</div>
+            </div>
+          </div>
+        </template>
+
+        <!-- ========== 商品管理 ========== -->
+        <template v-if="view === 'products'">
+          <div class="toolbar">
+            <input class="ipt" style="width: 220px" v-model.trim="prod.keyword" placeholder="搜索名称 / ID" @keyup.enter="prod.page = 1; loadProducts()">
+            <select class="ipt" style="width: 140px" v-model="prod.categoryId" @change="prod.page = 1; loadProducts()">
+              <option value="">全部分类</option>
+              <option v-for="c in catsView.length ? catsView : []" :key="c.id" :value="c.id">{{ c.label }}</option>
+            </select>
+            <select class="ipt" style="width: 120px" v-model="prod.status" @change="prod.page = 1; loadProducts()">
+              <option value="">全部状态</option><option value="1">上架</option><option value="0">下架</option>
+            </select>
+            <button class="btn btn-ghost" @click="prod.page = 1; loadProducts()">搜索</button>
+            <span style="flex:1"></span>
+            <button class="btn btn-primary" @click="loadCatsView().then(() => openEditor(null))">＋ 新建商品</button>
+          </div>
+          <div class="panel">
+            <table>
+              <thead><tr><th>商品</th><th>分类</th><th>价格</th><th>库存</th><th>销量</th><th>状态</th><th style="width: 170px">操作</th></tr></thead>
+              <tbody>
+                <tr v-for="p in prod.list" :key="p.id">
+                  <td style="display:flex; align-items:center; gap:10px; min-width: 220px">
+                    <img class="thumb" :src="p.image" alt="">
+                    <div><div>{{ p.name }}</div><div class="sub-name">{{ p.id }}</div></div>
+                  </td>
+                  <td>{{ p.category_id }}<div class="sub-name">{{ p.sub }}</div></td>
+                  <td class="money">¥{{ fmtMoney(p.price) }}</td>
+                  <td>{{ p.stock }}</td>
+                  <td>{{ p.sales }}</td>
+                  <td><span class="tag" :class="Number(p.status) ? 'tag-ok' : 'tag-gray'">{{ Number(p.status) ? '上架' : '下架' }}</span></td>
+                  <td>
+                    <button class="link" @click="openEditor(p)">编辑</button>
+                    <button class="link" @click="toggleProduct(p)">{{ Number(p.status) ? '下架' : '上架' }}</button>
+                    <button class="link danger" @click="removeProduct(p)">删除</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div v-if="!prod.list.length && !prod.loading" class="empty">暂无商品</div>
+            <div class="pager">
+              <span class="info">共 {{ prod.total }} 条</span>
+              <button class="btn btn-ghost btn-sm" :disabled="prod.page <= 1" @click="goPage(-1)">上一页</button>
+              <span>{{ prod.page }} / {{ pageTotal(prod.total, prod.pageSize) }}</span>
+              <button class="btn btn-ghost btn-sm" :disabled="prod.page >= pageTotal(prod.total, prod.pageSize)" @click="goPage(1)">下一页</button>
+            </div>
+          </div>
+        </template>
+
+        <!-- ========== 分类管理 ========== -->
+        <template v-if="view === 'categories'">
+          <div class="toolbar"><span style="flex:1"></span>
+            <button class="btn btn-primary" @click="openCatModal(null)">＋ 新建分类</button>
+          </div>
+          <div class="panel">
+            <table>
+              <thead><tr><th>ID</th><th>名称</th><th>副标题</th><th>图标</th><th>子分类</th><th>排序</th><th>状态</th><th style="width: 120px">操作</th></tr></thead>
+              <tbody>
+                <tr v-for="c in catsView" :key="c.id">
+                  <td class="sub-name">{{ c.id }}</td>
+                  <td style="font-weight: 600">{{ c.label }}</td>
+                  <td>{{ c.note }}</td>
+                  <td>{{ c.icon }}</td>
+                  <td><span v-for="s in c.subs" :key="s.id" class="tag tag-gray" style="margin-right:5px">{{ s.name }}</span></td>
+                  <td>{{ c.sort }}</td>
+                  <td><span class="tag" :class="c.enabled ? 'tag-ok' : 'tag-gray'">{{ c.enabled ? '启用' : '隐藏' }}</span></td>
+                  <td>
+                    <button class="link" @click="openCatModal(c)">编辑</button>
+                    <button class="link danger" @click="removeCat(c)">删除</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+
+        <!-- ========== 轮播图 ========== -->
+        <template v-if="view === 'banners'">
+          <div class="toolbar"><span style="flex:1"></span>
+            <button class="btn btn-primary" @click="openBnModal(null)">＋ 新建轮播</button>
+          </div>
+          <div class="panel">
+            <table>
+              <thead><tr><th>图片</th><th>标题</th><th>眉题</th><th>文案</th><th>排序</th><th>状态</th><th style="width: 170px">操作</th></tr></thead>
+              <tbody>
+                <tr v-for="b in banners" :key="b.id">
+                  <td><img class="thumb" style="width: 76px" :src="b.image" alt=""></td>
+                  <td style="font-weight: 600">{{ b.title }}</td>
+                  <td>{{ b.eyebrow }}</td>
+                  <td class="sub-name" style="max-width: 220px">{{ b.copy }}</td>
+                  <td>{{ b.sort }}</td>
+                  <td><span class="tag" :class="Number(b.enabled) ? 'tag-ok' : 'tag-gray'">{{ Number(b.enabled) ? '启用' : '隐藏' }}</span></td>
+                  <td>
+                    <button class="link" @click="moveBanner(b, -1)">上移</button>
+                    <button class="link" @click="moveBanner(b, 1)">下移</button>
+                    <button class="link" @click="openBnModal(b)">编辑</button>
+                    <button class="link danger" @click="removeBanner(b)">删除</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+
+        <!-- ========== 订单管理 ========== -->
+        <template v-if="view === 'orders'">
+          <div class="tabs">
+            <button v-for="s in STATUS_TABS" :key="s" class="tab" :class="{ active: orders.status === s }" @click="orders.status = s; orders.page = 1; loadOrders()">
+              {{ s || '全部' }}<template v-if="s"> ({{ countOf(s) }})</template>
+            </button>
+          </div>
+          <div class="toolbar">
+            <input class="ipt" style="width: 240px" v-model.trim="orders.keyword" placeholder="搜索订单号 / 收货人 / 手机号" @keyup.enter="orders.page = 1; loadOrders()">
+            <button class="btn btn-ghost" @click="orders.page = 1; loadOrders()">搜索</button>
+          </div>
+          <div class="panel">
+            <table>
+              <thead><tr><th>订单号</th><th>收货人</th><th>金额</th><th>件数</th><th>运单号</th><th>状态</th><th>下单时间</th><th style="width: 150px">操作</th></tr></thead>
+              <tbody>
+                <tr v-for="o in orders.list" :key="o.order_no">
+                  <td>{{ o.order_no }}</td>
+                  <td>{{ o.receiver }}<div class="sub-name">{{ o.phone }}</div></td>
+                  <td class="money">¥{{ fmtMoney(o.amount) }}</td>
+                  <td>{{ o.count }}</td>
+                  <td class="sub-name">{{ o.tracking_no || '-' }}</td>
+                  <td><span class="tag" :class="statusTag(o.status)">{{ o.status }}</span></td>
+                  <td class="sub-name">{{ fmtTime(o.created_at) }}</td>
+                  <td>
+                    <button class="link" @click="openOrder(o)">详情</button>
+                    <button v-if="o.status === '待发货'" class="link" @click="openShip(o)">发货</button>
+                    <button v-if="o.status === '待付款'" class="link danger" @click="cancelOrder(o)">取消</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div v-if="!orders.list.length && !orders.loading" class="empty">暂无订单</div>
+            <div class="pager">
+              <span class="info">共 {{ orders.total }} 条</span>
+              <button class="btn btn-ghost btn-sm" :disabled="orders.page <= 1" @click="goPage(-1)">上一页</button>
+              <span>{{ orders.page }} / {{ pageTotal(orders.total, orders.pageSize) }}</span>
+              <button class="btn btn-ghost btn-sm" :disabled="orders.page >= pageTotal(orders.total, orders.pageSize)" @click="goPage(1)">下一页</button>
+            </div>
+          </div>
+        </template>
+
+        <!-- ========== 用户管理 ========== -->
+        <template v-if="view === 'users'">
+          <div class="toolbar">
+            <input class="ipt" style="width: 220px" v-model.trim="users.keyword" placeholder="搜索用户名 / 昵称 / 手机号" @keyup.enter="users.page = 1; loadUsers()">
+            <select class="ipt" style="width: 120px" v-model="users.status" @change="users.page = 1; loadUsers()">
+              <option value="">全部状态</option><option value="1">正常</option><option value="0">禁用</option>
+            </select>
+            <button class="btn btn-ghost" @click="users.page = 1; loadUsers()">搜索</button>
+          </div>
+          <div class="panel">
+            <table>
+              <thead><tr><th>ID</th><th>昵称</th><th>用户名</th><th>等级</th><th>积分</th><th>最近登录</th><th>注册时间</th><th>状态</th><th style="width: 90px">操作</th></tr></thead>
+              <tbody>
+                <tr v-for="u in users.list" :key="u.id">
+                  <td class="sub-name">{{ u.id }}</td>
+                  <td style="font-weight: 600">{{ u.nickname }}</td>
+                  <td>{{ u.username }}</td>
+                  <td><span class="tag tag-blue">{{ u.level }}</span></td>
+                  <td>{{ u.points }}</td>
+                  <td class="sub-name">{{ fmtTime(u.last_login_at) }}</td>
+                  <td class="sub-name">{{ fmtTime(u.created_at) }}</td>
+                  <td><span class="tag" :class="Number(u.status) ? 'tag-ok' : 'tag-danger'">{{ Number(u.status) ? '正常' : '禁用' }}</span></td>
+                  <td><button class="link" :class="{ danger: Number(u.status) }" @click="toggleUser(u)">{{ Number(u.status) ? '禁用' : '启用' }}</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div v-if="!users.list.length && !users.loading" class="empty">暂无用户</div>
+            <div class="pager">
+              <span class="info">共 {{ users.total }} 条</span>
+              <button class="btn btn-ghost btn-sm" :disabled="users.page <= 1" @click="goPage(-1)">上一页</button>
+              <span>{{ users.page }} / {{ pageTotal(users.total, users.pageSize) }}</span>
+              <button class="btn btn-ghost btn-sm" :disabled="users.page >= pageTotal(users.total, users.pageSize)" @click="goPage(1)">下一页</button>
+            </div>
+          </div>
+        </template>
+
+        <!-- ========== 支付流水 ========== -->
+        <template v-if="view === 'payments'">
+          <div class="toolbar">
+            <input class="ipt" style="width: 240px" v-model.trim="pays.orderNo" placeholder="按订单号检索" @keyup.enter="pays.page = 1; loadPays()">
+            <button class="btn btn-ghost" @click="pays.page = 1; loadPays()">搜索</button>
+          </div>
+          <div class="panel">
+            <table>
+              <thead><tr><th>订单号</th><th>支付方式</th><th>金额</th><th>交易号</th><th>状态</th><th>支付时间</th><th>创建时间</th></tr></thead>
+              <tbody>
+                <tr v-for="p in pays.list" :key="p.id">
+                  <td>{{ p.order_no }}</td>
+                  <td><span class="tag tag-blue">{{ p.method === 'mock' ? '模拟支付' : p.method }}</span></td>
+                  <td class="money">¥{{ fmtMoney(p.amount) }}</td>
+                  <td class="sub-name">{{ p.trade_no || '-' }}</td>
+                  <td><span class="tag" :class="p.status === '已支付' ? 'tag-ok' : 'tag-gray'">{{ p.status }}</span></td>
+                  <td class="sub-name">{{ fmtTime(p.paid_at) }}</td>
+                  <td class="sub-name">{{ fmtTime(p.created_at) }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div v-if="!pays.list.length && !pays.loading" class="empty">暂无支付流水</div>
+            <div class="pager">
+              <span class="info">共 {{ pays.total }} 条</span>
+              <button class="btn btn-ghost btn-sm" :disabled="pays.page <= 1" @click="goPage(-1)">上一页</button>
+              <span>{{ pays.page }} / {{ pageTotal(pays.total, pays.pageSize) }}</span>
+              <button class="btn btn-ghost btn-sm" :disabled="pays.page >= pageTotal(pays.total, pays.pageSize)" @click="goPage(1)">下一页</button>
+            </div>
+          </div>
+        </template>
+      </main>
+    </div>
+  </div>
+
+  <!-- ============ 商品编辑抽屉 ============ -->
+  <template v-if="editor.show">
+    <div class="mask" @click="editor.show = false"></div>
+    <div class="drawer">
+      <div class="drawer-head">
+        <h3>{{ editor.id ? '编辑商品 · ' + editor.id : '新建商品' }}</h3>
+        <button class="x-btn" @click="editor.show = false">✕</button>
+      </div>
+      <div class="drawer-body">
+        <div class="grid-2">
+          <div class="field"><label>商品名称 <span class="tip">*</span></label><input class="ipt" v-model.trim="editor.form.name" placeholder="如 HUAWEI Mate 70 Pro"></div>
+          <div class="field"><label>分类 <span class="tip">*</span></label>
+            <select class="ipt" v-model="editor.form.categoryId">
+              <option value="">请选择</option>
+              <option v-for="c in cats" :key="c.id" :value="c.id">{{ c.label }}</option>
+            </select>
+          </div>
+          <div class="field"><label>子分类</label><input class="ipt" v-model.trim="editor.form.sub" placeholder="如 Mate 系列"></div>
+          <div class="field"><label>角标文案</label><input class="ipt" v-model.trim="editor.form.tag" placeholder="如 新品 / 热卖"></div>
+          <div class="field"><label>现价 (¥) <span class="tip">*</span></label><input class="ipt" type="number" min="0" step="0.01" v-model.number="editor.form.price"></div>
+          <div class="field"><label>划线价 (¥)</label><input class="ipt" type="number" min="0" step="0.01" v-model.number="editor.form.originalPrice" placeholder="0 表示不展示"></div>
+          <div class="field"><label>库存</label><input class="ipt" type="number" min="0" v-model.number="editor.form.stock"></div>
+          <div class="field"><label>排序</label><input class="ipt" type="number" v-model.number="editor.form.sort"></div>
+        </div>
+        <div class="field"><label>一句话卖点</label><textarea class="ipt" v-model.trim="editor.form.desc" placeholder="如 麒麟芯 · 超强影像"></textarea></div>
+        <div class="field">
+          <label style="display:flex; align-items:center; gap:8px">首页精选
+            <button type="button" class="switch" :class="{ on: editor.form.featured }" @click="editor.form.featured = !editor.form.featured"></button>
+          </label>
+        </div>
+
+        <div class="sect">📷 商品多图 <span class="tip" style="font-weight:400; color:var(--text-2)">首图为列表主图</span>
+          <span style="flex:1"></span><button class="btn btn-ghost btn-sm" type="button" @click="addImage">＋ 添加图片 URL</button>
+        </div>
+        <div class="img-list" v-if="editor.images.length">
+          <div class="img-item" v-for="(u, i) in editor.images" :key="i">
+            <img :src="u" alt="">
+            <div class="ops">
+              <button type="button" @click="moveImage(i, -1)" title="前移">‹</button>
+              <button type="button" @click="rmImage(i)" title="移除">✕</button>
+              <button type="button" @click="moveImage(i, 1)" title="后移">›</button>
+            </div>
+          </div>
+        </div>
+        <p v-else class="sub-name">暂无图片,点击右上角添加</p>
+
+        <div class="sect">🏷️ 规格 SKU <span class="tip" style="font-weight:400; color:var(--text-2)">有规格时按规格价与库存售卖</span>
+          <span style="flex:1"></span><button class="btn btn-ghost btn-sm" type="button" @click="addSku">＋ 添加规格</button>
+        </div>
+        <table v-if="editor.skus.length">
+          <thead><tr><th>规格文案</th><th style="width:90px">价格</th><th style="width:70px">库存</th><th>主图 URL</th><th style="width:44px"></th></tr></thead>
+          <tbody>
+            <tr v-for="(s, i) in editor.skus" :key="i">
+              <td><input class="ipt" style="padding:6px 8px" v-model.trim="s.specText" placeholder="曜金黑 · 12GB+256GB"></td>
+              <td><input class="ipt" style="padding:6px 8px" type="number" min="0" step="0.01" v-model.number="s.price"></td>
+              <td><input class="ipt" style="padding:6px 8px" type="number" min="0" v-model.number="s.stock"></td>
+              <td><input class="ipt" style="padding:6px 8px" v-model.trim="s.image" placeholder="可选"></td>
+              <td><button class="link danger" type="button" @click="rmSku(i)">删除</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <p v-else class="sub-name">无规格商品可跳过;商品库存即为可售库存</p>
+      </div>
+      <div class="drawer-foot">
+        <button class="btn btn-ghost" @click="editor.show = false">取消</button>
+        <button class="btn btn-primary" :disabled="editor.saving" @click="saveProduct">{{ editor.saving ? '保存中…' : '保存到数据库' }}</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- ============ 分类编辑弹窗 ============ -->
+  <template v-if="catModal.show">
+    <div class="mask" @click="catModal.show = false"></div>
+    <div class="modal">
+      <div class="modal-head"><h3>{{ catModal.id ? '编辑分类' : '新建分类' }}</h3><button class="x-btn" @click="catModal.show = false">✕</button></div>
+      <div class="modal-body">
+        <div class="grid-2">
+          <div class="field" v-if="!catModal.id"><label>分类 ID <span class="tip">*</span></label><input class="ipt" v-model.trim="catModal.newId" placeholder="如 phone / tablet"></div>
+          <div class="field"><label>名称 <span class="tip">*</span></label><input class="ipt" v-model.trim="catModal.form.label" placeholder="如 手机"></div>
+          <div class="field"><label>副标题</label><input class="ipt" v-model.trim="catModal.form.note" placeholder="如 Mate · Pura"></div>
+          <div class="field"><label>图标名</label><input class="ipt" v-model.trim="catModal.form.icon" placeholder="如 smartphone"></div>
+          <div class="field"><label>排序</label><input class="ipt" type="number" v-model.number="catModal.form.sort"></div>
+        </div>
+        <div class="field">
+          <label style="display:flex; align-items:center; gap:8px">启用
+            <button type="button" class="switch" :class="{ on: catModal.form.enabled }" @click="catModal.form.enabled = !catModal.form.enabled"></button>
+          </label>
+        </div>
+        <div class="sect">子分类 <span style="flex:1"></span><button class="btn btn-ghost btn-sm" type="button" @click="addSub">＋ 添加</button></div>
+        <div v-for="(s, i) in catModal.subs" :key="i" style="display:flex; gap:8px; margin-bottom:8px">
+          <input class="ipt" v-model.trim="s.name" placeholder="如 Mate 系列">
+          <button class="link danger" type="button" @click="rmSub(i)">删除</button>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" @click="catModal.show = false">取消</button>
+        <button class="btn btn-primary" :disabled="catModal.saving" @click="saveCat">保存</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- ============ 轮播编辑弹窗 ============ -->
+  <template v-if="bnModal.show">
+    <div class="mask" @click="bnModal.show = false"></div>
+    <div class="modal">
+      <div class="modal-head"><h3>{{ bnModal.id ? '编辑轮播' : '新建轮播' }}</h3><button class="x-btn" @click="bnModal.show = false">✕</button></div>
+      <div class="modal-body">
+        <div class="field"><label>标题 <span class="tip">*</span></label><input class="ipt" v-model.trim="bnModal.form.title" placeholder="如 Mate 70 王者归来"></div>
+        <div class="grid-2">
+          <div class="field"><label>眉题</label><input class="ipt" v-model.trim="bnModal.form.eyebrow" placeholder="如 HUAWEI Mate 系列"></div>
+          <div class="field"><label>跳转动作</label><input class="ipt" v-model.trim="bnModal.form.action" placeholder="如 立即抢购"></div>
+          <div class="field"><label>色调</label><input class="ipt" v-model.trim="bnModal.form.tone" placeholder="如 blue / gold"></div>
+          <div class="field">
+            <label style="display:flex; align-items:center; gap:8px">启用
+              <button type="button" class="switch" :class="{ on: bnModal.form.enabled }" @click="bnModal.form.enabled = !bnModal.form.enabled"></button>
+            </label>
+          </div>
+        </div>
+        <div class="field"><label>文案</label><textarea class="ipt" v-model.trim="bnModal.form.copy" placeholder="轮播副文案"></textarea></div>
+        <div class="field"><label>图片 URL</label><input class="ipt" v-model.trim="bnModal.form.image" placeholder="https://…"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" @click="bnModal.show = false">取消</button>
+        <button class="btn btn-primary" :disabled="bnModal.saving" @click="saveBanner">保存</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- ============ 订单详情抽屉 ============ -->
+  <template v-if="orderDetail.show">
+    <div class="mask" @click="orderDetail.show = false"></div>
+    <div class="drawer">
+      <div class="drawer-head"><h3>订单详情 {{ orderDetail.data ? '· ' + orderDetail.data.orderId : '' }}</h3><button class="x-btn" @click="orderDetail.show = false">✕</button></div>
+      <div class="drawer-body" v-if="orderDetail.data">
+        <div class="sect" style="margin-top:0">状态:<span class="tag" :class="statusTag(orderDetail.data.status)" style="font-size:13px">{{ orderDetail.data.status }}</span></div>
+        <div class="grid-2" style="margin-bottom: 6px">
+          <div><div class="sub-name">收货人</div>{{ orderDetail.data.receiver }} {{ orderDetail.data.phone }}</div>
+          <div><div class="sub-name">地址</div>{{ orderDetail.data.region }} {{ orderDetail.data.detail }}</div>
+          <div v-if="orderDetail.data.remark"><div class="sub-name">备注</div>{{ orderDetail.data.remark }}</div>
+          <div v-if="orderDetail.data.shipCompany"><div class="sub-name">物流</div>{{ orderDetail.data.shipCompany }} {{ orderDetail.data.trackingNo }}</div>
+        </div>
+        <div class="sect">商品明细</div>
+        <table>
+          <thead><tr><th>商品</th><th>规格</th><th>单价</th><th>数量</th></tr></thead>
+          <tbody>
+            <tr v-for="(it, i) in orderDetail.data.items" :key="i">
+              <td>{{ it.name }}<div class="sub-name">{{ it.id }}</div></td>
+              <td>{{ it.spec || '-' }}</td>
+              <td class="money">¥{{ fmtMoney(it.price) }}</td>
+              <td>×{{ it.qty }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="sect">金额</div>
+        <div class="sub-name" style="line-height: 2">
+          商品金额 ¥{{ fmtMoney(orderDetail.data.goodsAmount) }} ＋ 运费 ¥{{ fmtMoney(orderDetail.data.freight) }}
+          － 优惠 ¥{{ fmtMoney(orderDetail.data.discount) }} ＝ <b style="color: var(--text)">应付 ¥{{ fmtMoney(orderDetail.data.amount) }}</b>
+          <template v-if="orderDetail.data.payment"> · 支付方式 {{ orderDetail.data.payment.method === 'mock' ? '模拟支付' : orderDetail.data.payment.method }} ({{ orderDetail.data.payment.status }})</template>
+        </div>
+        <div class="sect">状态时间轴</div>
+        <ul class="timeline">
+          <li v-for="(l, i) in [...(orderDetail.data.logs || [])].reverse()" :key="i">
+            <div class="t-status">{{ l.toStatus }}</div>
+            <div class="t-remark">{{ l.remark }} · {{ fmtMs(l.createdAt) }}</div>
+          </li>
+        </ul>
+      </div>
+      <div v-else class="empty" style="flex:1">加载中…</div>
+    </div>
+  </template>
+
+  <!-- ============ 发货弹窗 ============ -->
+  <template v-if="shipModal.show">
+    <div class="mask" @click="shipModal.show = false"></div>
+    <div class="modal" style="width: 400px">
+      <div class="modal-head"><h3>发货 · {{ shipModal.orderNo }}</h3><button class="x-btn" @click="shipModal.show = false">✕</button></div>
+      <div class="modal-body">
+        <div class="field"><label>快递公司</label><input class="ipt" v-model.trim="shipModal.shipCompany" placeholder="如 顺丰速运"></div>
+        <div class="field"><label>运单号</label><input class="ipt" v-model.trim="shipModal.trackingNo" placeholder="留空则自动生成"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" @click="shipModal.show = false">取消</button>
+        <button class="btn btn-primary" :disabled="shipModal.saving" @click="doShip">确认发货</button>
+      </div>
+    </div>
+  </template>
+</div>
+</script>
+</body>
+</html>

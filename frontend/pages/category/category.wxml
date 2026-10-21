@@ -1,0 +1,99 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 顶栏 -->
+  <header class="page-topbar">
+    <view class="pt-left">
+      <text class="page-kicker">HUAWEI CATALOG</text>
+      <text class="page-title">分类</text>
+    </view>
+    <text wx:if="{{list.length}}" class="page-top-note">{{list.length}} 件在售</text>
+  </header>
+
+  <!-- 搜索 -->
+  <view class="cat-search">
+    <view class="search-box">
+      <icon name="search" size="17" color="#8b8d92" />
+      <input class="search-box-input" value="{{query}}" bindinput="onSearchInput" placeholder="搜索全部商品" />
+      <view wx:if="{{query}}" class="clear-search" hover-class="clear-search-hover" bindtap="clearSearch">
+        <icon name="x" size="14" color="#74767c" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 主体：左栏 + 右栏 -->
+  <view class="cat-body">
+    <view class="cat-rail">
+      <view
+        class="cat-rail-item {{activeCat === 'all' ? 'active' : ''}}"
+        hover-class="cat-rail-item-hover"
+        data-id="all"
+        bindtap="selectCat"
+      >
+        <view class="cat-rail-ic">
+          <icon name="layout-grid" size="18" color="{{activeCat === 'all' ? '#c8102e' : '#74777d'}}" />
+        </view>
+        <text>全部</text>
+      </view>
+      <view
+        wx:for="{{catList}}"
+        wx:key="id"
+        class="cat-rail-item {{activeCat === item.id ? 'active' : ''}}"
+        hover-class="cat-rail-item-hover"
+        data-id="{{item.id}}"
+        bindtap="selectCat"
+      >
+        <view class="cat-rail-ic">
+          <icon name="{{item.icon}}" size="18" color="{{activeCat === item.id ? '#c8102e' : '#74777d'}}" />
+        </view>
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+
+    <view class="cat-panel">
+      <view wx:if="{{!isSearching && chips.length}}" class="cat-chips">
+        <view
+          wx:for="{{chips}}"
+          wx:key="*this"
+          class="cat-chip {{chipActive[item] ? 'active' : ''}}"
+          hover-class="cat-chip-hover"
+          data-chip="{{item}}"
+          bindtap="onSubChip"
+        >{{item}}</view>
+      </view>
+
+      <view class="cat-panel-head">
+        <text class="cat-panel-title">{{displayTitle}}</text>
+        <text class="cat-panel-count">{{list.length}} 件</text>
+      </view>
+
+      <view wx:if="{{loading}}" class="cat-loading">
+        <view class="cat-loading-row"></view>
+        <view class="cat-loading-row"></view>
+        <view class="cat-loading-row"></view>
+      </view>
+
+      <view wx:elif="{{list.length}}" class="product-grid">
+        <view
+          class="product-grid-cell"
+          wx:for="{{list}}"
+          wx:key="id"
+          hover-class="grid-cell-hover"
+          data-id="{{item.id}}"
+          bindtap="goDetail"
+        >
+          <product-card
+            product="{{item}}"
+            liked="{{likedMap[item.id]}}"
+            bindadd="onAdd"
+            bindlike="onLike"
+          />
+        </view>
+      </view>
+
+      <view wx:else class="empty-state">没有找到相关商品，换个关键词试试</view>
+    </view>
+  </view>
+
+  <view class="cat-bottom-space"></view>
+</view>

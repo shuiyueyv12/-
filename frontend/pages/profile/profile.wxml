@@ -1,0 +1,174 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 顶栏 -->
+  <header class="page-topbar">
+    <view>
+      <text class="page-kicker">MY HUAWEI</text>
+      <text class="page-title">我的</text>
+    </view>
+  </header>
+
+  <!-- 用户卡片 -->
+  <section class="profile-hero">
+    <block wx:if="{{user}}">
+      <view class="profile-avatar is-user">{{avatarChar}}</view>
+      <view class="profile-info">
+        <view class="profile-name-row">
+          <text class="profile-name">{{user.nickname}}</text>
+        </view>
+        <text class="profile-sub">{{userSub}}</text>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="profile-login" hover-class="profile-login-hover" bindtap="handleLogin">
+        <view class="profile-avatar">
+          <icon name="user-round" size="24" color="#ffffff" />
+        </view>
+        <view class="profile-info">
+          <text class="profile-name">点击登录</text>
+          <text class="profile-sub">用户名 / 密码登录</text>
+        </view>
+        <icon name="chevron-right" size="18" color="rgba(255,255,255,0.7)" />
+      </view>
+    </block>
+  </section>
+
+  <!-- 数据统计 -->
+  <section class="profile-stats">
+    <view class="stat-cell" hover-class="stat-cell-hover" bindtap="comingSoonCollect">
+      <text class="stat-num">{{favCount}}</text>
+      <text class="stat-label">收藏</text>
+    </view>
+    <view class="stat-cell" hover-class="stat-cell-hover" bindtap="comingSoonCoupon">
+      <text class="stat-num">0</text>
+      <text class="stat-label">优惠券</text>
+    </view>
+    <view class="stat-cell" hover-class="stat-cell-hover" bindtap="openPoints">
+      <text class="stat-num">{{pointsText}}</text>
+      <text class="stat-label">积分</text>
+    </view>
+  </section>
+
+  <!-- 我的订单 -->
+  <section class="profile-card">
+    <view class="profile-card-head">
+      <text class="profile-card-title">我的订单</text>
+      <view class="profile-more" hover-class="profile-more-hover" bindtap="goOrders">
+        <text>全部订单</text>
+        <icon name="chevron-right" size="14" color="#8b8e94" />
+      </view>
+    </view>
+    <view class="order-quick">
+      <view
+        wx:for="{{orderQuick}}"
+        wx:key="label"
+        class="order-quick-cell"
+        hover-class="order-quick-cell-hover"
+        data-label="{{item.label}}"
+        data-goto="{{item.goto}}"
+        bindtap="comingSoonLabel"
+      >
+        <view class="order-quick-ic">
+          <icon name="{{item.icon}}" size="21" color="#18191c" />
+        </view>
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+    <view wx:if="{{orders.length}}" class="order-list">
+      <view
+        wx:for="{{orders}}"
+        wx:key="orderId"
+        class="order-item"
+        hover-class="order-item-hover"
+        data-id="{{item.orderId}}"
+        bindtap="goOrderDetail"
+      >
+        <view class="order-item-top">
+          <text class="order-id">单号 {{item.orderId}} · {{item.timeText}}</text>
+          <text class="order-status">{{item.status}}</text>
+        </view>
+        <view class="order-item-main">
+          <view class="order-thumbs">
+            <image
+              wx:for="{{item.items}}"
+              wx:for-item="item2"
+              wx:key="id"
+              class="order-thumb"
+              src="{{item2.image}}"
+              mode="aspectFill"
+            />
+          </view>
+          <view class="order-summary">
+            <text>共 {{item.count}} 件 · </text>
+            <text class="order-amount">{{item.amountText}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="order-empty">还没有订单，快去选购吧</view>
+  </section>
+
+  <!-- 我的收藏 -->
+  <section class="profile-card">
+    <view class="profile-card-head">
+      <view class="fav-title">
+        <text class="profile-card-title">我的收藏</text>
+        <text wx:if="{{favCount}}" class="fav-count">{{favCount}}</text>
+      </view>
+      <view class="profile-more" hover-class="profile-more-hover" bindtap="goBrowsing">
+        <text>去逛逛</text>
+        <icon name="chevron-right" size="14" color="#8b8e94" />
+      </view>
+    </view>
+    <view wx:if="{{fav.length}}" class="fav-list">
+      <view wx:for="{{fav}}" wx:key="id" class="fav-line">
+        <image class="fav-thumb" src="{{item.image}}" mode="aspectFill" />
+        <view class="fav-main">
+          <text class="fav-name">{{item.name}}</text>
+          <text class="fav-desc">{{item.desc}}</text>
+          <text class="fav-price">{{item.priceText}}</text>
+        </view>
+        <view class="fav-actions">
+          <view class="fav-like" hover-class="fav-like-hover" data-id="{{item.id}}" bindtap="onToggleLike">
+            <icon name="heart" size="16" color="#c8102e" mode="fill" />
+          </view>
+          <view class="fav-add" hover-class="fav-add-hover" data-id="{{item.id}}" bindtap="onAdd">
+            <icon name="shopping-bag" size="15" color="#5b5e64" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="fav-empty">
+      <icon name="heart" size="34" color="#c3c5ca" />
+      <text class="fav-empty-tip">还没有收藏的商品，看到喜欢的点个红心吧</text>
+    </view>
+  </section>
+
+  <!-- 服务入口 -->
+  <section class="profile-card menu-card">
+    <view
+      wx:for="{{cells}}"
+      wx:key="label"
+      class="profile-cell"
+      hover-class="profile-cell-hover"
+      data-label="{{item.label}}"
+      data-goto="{{item.goto}}"
+      bindtap="comingSoonLabel"
+    >
+      <view class="profile-cell-ic">
+        <icon name="{{item.icon}}" size="18" color="#3d4045" />
+      </view>
+      <text class="profile-cell-label">{{item.label}}</text>
+      <icon name="chevron-right" size="16" color="#c9cbd0" />
+    </view>
+  </section>
+
+  <view wx:if="{{user}}" class="profile-logout" hover-class="profile-logout-hover" bindtap="handleLogout">
+    <icon name="log-out" size="16" color="#c8102e" />
+    <text>退出登录</text>
+  </view>
+
+  <view class="safe-bottom-space"></view>
+</view>

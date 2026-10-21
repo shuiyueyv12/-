@@ -1,0 +1,333 @@
+/* ===== 订单详情页 ===== */
+.page-root {
+  min-height: 100vh;
+  background: #f1f2f4;
+}
+
+.odd-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #c8102e 0%, #8f0c22 100%);
+}
+
+.odd-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.odd-back-hover {
+  opacity: 0.8;
+}
+
+.odd-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* 状态卡 */
+.odd-status-card {
+  margin: 10px 12px 0;
+  padding: 20px 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #c8102e 0%, #8f0c22 100%);
+  color: #ffffff;
+}
+
+.odd-status {
+  display: block;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.odd-status-tip {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+/* 卡片 */
+.odd-card {
+  margin: 10px 12px 0;
+  padding: 16px;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.odd-card-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+/* 商品行 */
+.odd-line {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f3f5;
+}
+
+.odd-line:last-child {
+  border-bottom: none;
+}
+
+.odd-line-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: #f6f7f8;
+}
+
+.odd-line-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.odd-line-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #18191c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.odd-line-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+.odd-line-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #c8102e;
+}
+
+.odd-line-qty {
+  font-size: 11px;
+  color: #85888f;
+}
+
+.odd-line-empty {
+  padding: 12px 0;
+  text-align: center;
+  color: #a9abb0;
+  font-size: 12px;
+}
+
+/* 订单信息行 */
+.odd-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.odd-row-k {
+  font-size: 12px;
+  color: #85888f;
+}
+
+.odd-row-v {
+  font-size: 12px;
+  color: #18191c;
+  font-weight: 600;
+}
+
+.odd-row-total {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid #f2f3f5;
+}
+
+.odd-row-amount {
+  font-size: 17px;
+  font-weight: 800;
+  color: #c8102e;
+}
+
+.odd-bottom-space {
+  height: 86px;
+}
+
+/* 底部操作栏 */
+.odd-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.odd-bar-btn {
+  padding: 11px 26px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.odd-bar-btn.is-solid {
+  background: #c8102e;
+  color: #ffffff;
+}
+
+.odd-bar-btn.is-ghost {
+  border: 1.5px solid #d4d5d9;
+  color: #55585e;
+}
+
+.odd-bar-btn.is-disabled {
+  opacity: 0.45;
+}
+
+.odd-bar-btn-hover {
+  opacity: 0.85;
+}
+
+/* ===== 物流 ===== */
+.odd-copy {
+  color: #c8102e;
+}
+
+.odd-hint {
+  display: block;
+  padding: 4px 0 2px;
+  font-size: 11px;
+  color: #a9abb0;
+}
+
+/* ===== 收货信息 ===== */
+.odd-addr-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.odd-addr-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #18191c;
+}
+
+.odd-addr-phone {
+  font-size: 12px;
+  color: #55585e;
+}
+
+.odd-addr-detail {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #85888f;
+}
+
+/* ===== 商品规格 ===== */
+.odd-line-spec {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #f4f5f7;
+  color: #6c6f76;
+  font-size: 10px;
+}
+
+/* ===== 优惠 ===== */
+.odd-discount {
+  color: #d97706;
+}
+
+/* ===== 状态时间轴 ===== */
+.odd-tl-item {
+  display: flex;
+  gap: 10px;
+}
+
+.odd-tl-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 12px;
+  padding-top: 4px;
+}
+
+.odd-tl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid #d8d9dd;
+}
+
+.odd-tl-dot.is-done {
+  background: #c8102e;
+  border-color: #c8102e;
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.14);
+}
+
+.odd-tl-line {
+  flex: 1;
+  width: 1.5px;
+  min-height: 26px;
+  margin: 3px 0;
+  background: #e8e9ec;
+}
+
+.odd-tl-line.is-done {
+  background: rgba(200, 16, 46, 0.28);
+}
+
+.odd-tl-body {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 14px;
+}
+
+.odd-tl-item:last-child .odd-tl-body {
+  padding-bottom: 0;
+}
+
+.odd-tl-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b9bbc0;
+}
+
+.odd-tl-title.is-done {
+  color: #18191c;
+}
+
+.odd-tl-remark {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: #85888f;
+}
+
+.odd-tl-time {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  color: #a9abb0;
+}

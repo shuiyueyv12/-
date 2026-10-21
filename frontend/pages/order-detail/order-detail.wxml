@@ -1,0 +1,163 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 顶栏 -->
+  <view class="odd-topbar">
+    <view class="odd-back" hover-class="odd-back-hover" bindtap="goBack">
+      <icon name="chevron-left" size="20" color="#ffffff" />
+    </view>
+    <text class="odd-title">订单详情</text>
+  </view>
+
+  <block wx:if="{{order}}">
+    <!-- 状态卡 -->
+    <view class="odd-status-card">
+      <text class="odd-status">{{order.status}}</text>
+      <text wx:if="{{statusTip}}" class="odd-status-tip">{{statusTip}}</text>
+    </view>
+
+    <!-- 物流 -->
+    <view class="odd-card">
+      <text class="odd-card-label">物流信息</text>
+      <block wx:if="{{hasLogistics}}">
+        <view class="odd-row">
+          <text class="odd-row-k">快递公司</text>
+          <text class="odd-row-v">{{logisticsText}}</text>
+        </view>
+        <view class="odd-row">
+          <text class="odd-row-k">运单号</text>
+          <text class="odd-row-v odd-copy" bindlongpress="copyTrackingNo">{{trackingNo}}</text>
+        </view>
+        <text class="odd-hint">长按运单号可复制</text>
+      </block>
+      <text wx:else class="odd-hint">商家还未发货,暂无物流信息</text>
+    </view>
+
+    <!-- 收货信息(下单瞬间的快照,与地址簿后续改动无关) -->
+    <view wx:if="{{hasAddress}}" class="odd-card">
+      <text class="odd-card-label">收货信息</text>
+      <view class="odd-addr-head">
+        <text class="odd-addr-name">{{receiver}}</text>
+        <text class="odd-addr-phone">{{phone}}</text>
+      </view>
+      <text class="odd-addr-detail">{{addressText}}</text>
+    </view>
+
+    <!-- 商品快照 -->
+    <view class="odd-card">
+      <text class="odd-card-label">商品信息</text>
+      <view wx:for="{{order.items}}" wx:key="key" class="odd-line">
+        <image class="odd-line-thumb" src="{{item.image}}" mode="aspectFill" />
+        <view class="odd-line-main">
+          <text class="odd-line-name">{{item.name}}</text>
+          <text wx:if="{{item.spec}}" class="odd-line-spec">{{item.spec}}</text>
+          <view class="odd-line-bottom">
+            <text class="odd-line-price">{{item.priceText}}</text>
+            <text class="odd-line-qty">x{{item.qty}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{!order.items.length}}" class="odd-line-empty">该订单没有商品快照</view>
+    </view>
+
+    <!-- 金额构成 -->
+    <view class="odd-card">
+      <text class="odd-card-label">金额信息</text>
+      <view class="odd-row">
+        <text class="odd-row-k">商品金额</text>
+        <text class="odd-row-v">{{goodsAmountText}}</text>
+      </view>
+      <view class="odd-row">
+        <text class="odd-row-k">配送费用</text>
+        <text class="odd-row-v">{{freightText}}</text>
+      </view>
+      <view wx:if="{{discountText}}" class="odd-row">
+        <text class="odd-row-k">优惠</text>
+        <text class="odd-row-v odd-discount">{{discountText}}</text>
+      </view>
+      <view class="odd-row">
+        <text class="odd-row-k">商品件数</text>
+        <text class="odd-row-v">{{order.count}} 件</text>
+      </view>
+      <view class="odd-row odd-row-total">
+        <text class="odd-row-k">实付金额</text>
+        <text class="odd-row-amount">{{amountText}}</text>
+      </view>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="odd-card">
+      <text class="odd-card-label">订单信息</text>
+      <view class="odd-row">
+        <text class="odd-row-k">订单编号</text>
+        <text class="odd-row-v">{{order.orderId}}</text>
+      </view>
+      <view class="odd-row">
+        <text class="odd-row-k">下单时间</text>
+        <text class="odd-row-v">{{timeText}}</text>
+      </view>
+      <view wx:if="{{paymentText}}" class="odd-row">
+        <text class="odd-row-k">支付方式</text>
+        <text class="odd-row-v">{{paymentText}}</text>
+      </view>
+      <view wx:if="{{paidTimeText}}" class="odd-row">
+        <text class="odd-row-k">支付时间</text>
+        <text class="odd-row-v">{{paidTimeText}}</text>
+      </view>
+      <view wx:if="{{shippedTimeText}}" class="odd-row">
+        <text class="odd-row-k">发货时间</text>
+        <text class="odd-row-v">{{shippedTimeText}}</text>
+      </view>
+      <view wx:if="{{finishedTimeText}}" class="odd-row">
+        <text class="odd-row-k">完成时间</text>
+        <text class="odd-row-v">{{finishedTimeText}}</text>
+      </view>
+      <view wx:if="{{order.remark}}" class="odd-row">
+        <text class="odd-row-k">订单备注</text>
+        <text class="odd-row-v">{{order.remark}}</text>
+      </view>
+    </view>
+
+    <!-- 状态时间轴 -->
+    <view wx:if="{{timeline.length}}" class="odd-card">
+      <text class="odd-card-label">状态时间轴</text>
+      <view wx:for="{{timeline}}" wx:key="key" class="odd-tl-item">
+        <view class="odd-tl-rail">
+          <view class="odd-tl-dot {{item.done ? 'is-done' : ''}}"></view>
+          <view
+            wx:if="{{index < timeline.length - 1}}"
+            class="odd-tl-line {{item.done ? 'is-done' : ''}}"
+          ></view>
+        </view>
+        <view class="odd-tl-body">
+          <text class="odd-tl-title {{item.done ? 'is-done' : ''}}">{{item.title}}</text>
+          <text wx:if="{{item.remark}}" class="odd-tl-remark">{{item.remark}}</text>
+          <text wx:if="{{item.timeText}}" class="odd-tl-time">{{item.timeText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="odd-bottom-space"></view>
+
+    <!-- 操作栏 -->
+    <view wx:if="{{actions.length}}" class="odd-bar">
+      <view
+        wx:for="{{actions}}"
+        wx:key="action"
+        class="odd-bar-btn {{item.primary ? 'is-solid' : 'is-ghost'}} {{busy ? 'is-disabled' : ''}}"
+        hover-class="odd-bar-btn-hover"
+        data-action="{{item.action}}"
+        data-label="{{item.label}}"
+        bindtap="runAction"
+      >{{item.label}}</view>
+    </view>
+  </block>
+
+  <view wx:else class="page-empty">
+    <icon name="package" size="52" color="#c3c5ca" />
+    <text class="page-empty-title">订单不存在</text>
+    <text class="page-empty-tip">它可能已过期或不属于当前账号</text>
+  </view>
+
+  <view class="safe-bottom-space"></view>
+</view>

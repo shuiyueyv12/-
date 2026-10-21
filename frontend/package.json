@@ -1,0 +1,7 @@
+{
+  "name": "huawei-mall-wxapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "微信小程序端（CommonJS 源码，此 package.json 仅用于将本目录声明为 commonjs 作用域，便于本仓库内 Node 工具链复用同一份源码做校验/测试，不影响微信开发者工具构建）",
+  "type": "commonjs"
+}

@@ -1,0 +1,23 @@
+<view class="product-card">
+  <view class="product-image-wrap">
+    <image class="product-image" src="{{product.image}}" mode="aspectFill" lazy-load />
+    <text wx:if="{{product.tag}}" class="product-tag">{{product.tag}}</text>
+    <view
+      class="like-button {{liked ? 'is-liked' : ''}}"
+      hover-class="like-button-hover"
+      catchtap="onLike"
+    >
+      <icon name="heart" size="16" color="{{liked ? '#c8102e' : '#9a9ca2'}}" mode="{{liked ? 'fill' : 'stroke'}}" />
+    </view>
+  </view>
+  <view class="product-info">
+    <text class="product-name">{{product.name}}</text>
+    <text class="product-desc">{{product.desc}}</text>
+    <view class="product-bottom">
+      <text class="product-price">{{priceText}}</text>
+      <view class="add-button" hover-class="add-button-hover" catchtap="onAdd">
+        <icon name="shopping-bag" size="15" color="#c8102e" />
+      </view>
+    </view>
+  </view>
+</view>

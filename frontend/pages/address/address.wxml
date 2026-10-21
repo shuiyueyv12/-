@@ -1,0 +1,134 @@
+<view class="page-root">
+  <view class="nav-zone" style="height:{{navTop}}px"></view>
+
+  <!-- 顶栏 -->
+  <view class="ad-topbar">
+    <view class="ad-back" hover-class="ad-back-hover" bindtap="goBack">
+      <icon name="chevron-left" size="20" color="#18191c" />
+    </view>
+    <text class="ad-title">{{picker ? '选择收货地址' : '收货地址'}}</text>
+  </view>
+
+  <!-- 地址列表 -->
+  <view wx:if="{{list.length}}" class="ad-list">
+    <view
+      wx:for="{{list}}"
+      wx:key="id"
+      class="ad-item"
+      hover-class="ad-item-hover"
+      data-id="{{item.id}}"
+      bindtap="onItemTap"
+    >
+      <view class="ad-item-main">
+        <view class="ad-item-head">
+          <text class="ad-item-name">{{item.receiver}}</text>
+          <text class="ad-item-phone">{{item.phone}}</text>
+          <text wx:if="{{item.isDefault}}" class="ad-item-default">默认</text>
+        </view>
+        <text class="ad-item-detail">{{item.region}} {{item.detail}}</text>
+      </view>
+      <view class="ad-item-actions">
+        <view
+          wx:if="{{!item.isDefault}}"
+          class="ad-act"
+          hover-class="ad-act-hover"
+          data-id="{{item.id}}"
+          catchtap="setDefault"
+        >设为默认</view>
+        <view
+          class="ad-act is-danger"
+          hover-class="ad-act-hover"
+          data-id="{{item.id}}"
+          catchtap="removeAddress"
+        >删除</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空态 -->
+  <view wx:else class="page-empty">
+    <icon name="map-pin" size="52" color="#c3c5ca" />
+    <text class="page-empty-title">还没有收货地址</text>
+    <text class="page-empty-tip">添加一个地址,结算时更方便</text>
+  </view>
+
+  <!-- 新增表单 -->
+  <view wx:if="{{editing}}" class="ad-form-card">
+    <text class="ad-card-title">{{form.id ? '编辑地址' : '新增地址'}}</text>
+
+    <view class="ad-field">
+      <text class="ad-field-label">收货人</text>
+      <input
+        class="ad-field-input"
+        type="text"
+        maxlength="20"
+        placeholder="姓名"
+        placeholder-class="ad-field-ph"
+        value="{{form.receiver}}"
+        data-field="receiver"
+        bindinput="onField"
+      />
+    </view>
+    <view class="ad-field">
+      <text class="ad-field-label">手机号</text>
+      <input
+        class="ad-field-input"
+        type="number"
+        maxlength="20"
+        placeholder="11 位手机号"
+        placeholder-class="ad-field-ph"
+        value="{{form.phone}}"
+        data-field="phone"
+        bindinput="onField"
+      />
+    </view>
+    <view class="ad-field">
+      <text class="ad-field-label">省市区</text>
+      <input
+        class="ad-field-input"
+        type="text"
+        maxlength="40"
+        placeholder="如:广东省深圳市"
+        placeholder-class="ad-field-ph"
+        value="{{form.region}}"
+        data-field="region"
+        bindinput="onField"
+      />
+    </view>
+    <view class="ad-field">
+      <text class="ad-field-label">详细地址</text>
+      <input
+        class="ad-field-input"
+        type="text"
+        maxlength="60"
+        placeholder="街道、门牌号等"
+        placeholder-class="ad-field-ph"
+        value="{{form.detail}}"
+        data-field="detail"
+        bindinput="onField"
+      />
+    </view>
+
+    <view class="ad-default-row" hover-class="ad-default-row-hover" bindtap="toggleDefault">
+      <view class="ad-check {{isDefault ? 'on' : ''}}">
+        <icon wx:if="{{isDefault}}" name="check" size="11" color="#ffffff" />
+      </view>
+      <text>设为默认地址</text>
+    </view>
+
+    <view class="ad-form-btns">
+      <view class="ad-btn is-ghost" hover-class="ad-btn-hover" bindtap="cancelEdit">取消</view>
+      <view class="ad-btn is-solid" hover-class="ad-btn-hover" bindtap="save">{{saving ? '保存中…' : '保存'}}</view>
+    </view>
+  </view>
+
+  <view class="ad-bottom-space"></view>
+
+  <!-- 新增按钮(未编辑表单时显示) -->
+  <view wx:if="{{!editing}}" class="ad-bar">
+    <view class="ad-bar-btn" hover-class="ad-bar-btn-hover" bindtap="startAdd">
+      <icon name="plus" size="16" color="#ffffff" />
+      <text>新增收货地址</text>
+    </view>
+  </view>
+</view>

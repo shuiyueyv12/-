@@ -1,0 +1,193 @@
+/* ============================================================
+   app.wxss —— 全局样式（对应 H5 src/styles.css，色值展开以兼容各渲染内核）
+   主题色速查：
+     red        #c8102e   红（品牌主色）
+     red-bright #ec1a3b   红（hover/按下）
+     ink        #18191c   正文主文字
+     muted      #85888f   次级文字
+     faint      #a1a3a8 / #9a9ca1 弱文字
+     line       #ececef   分隔线
+     cloud      #f6f7f8   浅底
+     card-bg    #f7f7f8   商品卡底
+     grey-icon  #a3a5aa   tabBar 未选中
+   ============================================================ */
+
+page {
+  background: #ffffff;
+  color: #18191c;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+view,
+text,
+image,
+button,
+input,
+scroll-view {
+  box-sizing: border-box;
+}
+
+button {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+button::after {
+  border: none;
+}
+
+image {
+  display: block;
+}
+
+/* ---------------- 自定义导航顶区（避开胶囊按钮） ---------------- */
+/* 每个页面根部顶部留白高度由 JS 计算后内联 style 控制 */
+.nav-zone {
+  width: 100%;
+}
+
+/* ---------------- 页面通用顶栏（分类 / 购物车 / 我的） ---------------- */
+.page-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 20px;
+  background: #ffffff;
+}
+
+.page-kicker {
+  display: block;
+  color: #c8102e;
+  font-family: 'Menlo', 'Consolas', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.page-title {
+  display: block;
+  margin: 5px 0 0;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.page-top-note {
+  padding-bottom: 3px;
+  color: #a1a3a8;
+  font-family: 'Menlo', 'Consolas', monospace;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* ---------------- 搜索框（首页 / 分类共用样式） ---------------- */
+.search-box {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid #e9eaed;
+  border-radius: 15px;
+  background: #f7f8f9;
+}
+
+.search-box-input {
+  flex: 1;
+  min-width: 0;
+  margin-left: 9px;
+  border: 0;
+  background: transparent;
+  color: #18191c;
+  font-size: 13px;
+  height: 100%;
+}
+
+.clear-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #e4e5e8;
+}
+
+/* ---------------- 主按钮（红色实底） ---------------- */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  background: #c8102e;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.btn-primary.btn-hover {
+  background: #ec1a3b;
+}
+
+.btn-primary.btn-disabled {
+  opacity: 0.35;
+}
+
+/* 页面空态（购物车 / 收藏等） */
+.page-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 70px 30px;
+  color: #a9abb0;
+  text-align: center;
+}
+
+.page-empty .page-empty-title {
+  display: block;
+  margin-top: 18px;
+  color: #55585e;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.page-empty .page-empty-tip {
+  margin: 8px 0 24px;
+  font-size: 11px;
+  color: #a9abb0;
+}
+
+/* 商品网格容器：双列 flex（父级负责外边距 padding） */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product-grid-cell {
+  width: calc((100% - 12px) / 2);
+  margin-bottom: 16px;
+}
+
+/* 商品卡整体点击进详情时的按压反馈 */
+.grid-cell-hover {
+  opacity: 0.85;
+}
+
+/* 页面底部占位 */
+.safe-bottom-space {
+  height: 40px;
+  width: 100%;
+}
